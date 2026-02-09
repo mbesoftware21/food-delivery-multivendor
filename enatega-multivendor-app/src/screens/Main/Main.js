@@ -32,7 +32,7 @@ import Spinner from '../../components/Spinner/Spinner'
 import CustomApartmentIcon from '../../assets/SVG/imageComponents/CustomApartmentIcon'
 import MainModalize from '../../components/Main/Modalize/MainModalize'
 import CollectionCard from '../../components/CollectionCard/CollectionCard'
-import { sortRestaurantsByOpenStatus } from '../../utils/customFunctions'
+import { getErrorMessage, sortRestaurantsByOpenStatus } from '../../utils/customFunctions'
 import { IMAGE_LINK } from '../../utils/constants'
 import useGeocoding from '../../ui/hooks/useGeocoding'
 import ForceUpdate from '../../components/Update/ForceUpdate'
@@ -343,7 +343,8 @@ function Main(props) {
 
   const restaurantCuisines = useCuisinesData('restaurant', allCuisines)
   const groceryCuisines = useCuisinesData('grocery', allCuisines)
-  if (error) return <ErrorView />
+  const userFriendlyErrorMessage = getErrorMessage(error)
+  if (error) return <ErrorView refetchFunctions={[refetchRestaurants, refetchBanners]} errorMessage={userFriendlyErrorMessage} />
   return (
     <>
       {!connect ? (
