@@ -21,6 +21,7 @@ export const GoogleMapsLoader = ({
     console.log('GoogleMapsLoader - Context changed:', context);
   }, [context]);
 
+  /* 
   if (!context?.isLoaded) {
     console.warn('Google Maps not loaded, showing loader');
     return (
@@ -37,6 +38,7 @@ export const GoogleMapsLoader = ({
       </div>
     );
   }
+  */
 
   return <>{children}</>;
 };

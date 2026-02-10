@@ -69,18 +69,21 @@ export default function LoginEmailPasswordMain() {
 
   // API Handlers
   function onCompleted({ ownerLogin }: IOwnerLoginDataResponse) {
-    onUseLocalStorage('save', `user-${APP_NAME}`, JSON.stringify(ownerLogin));
-    setUser(ownerLogin);
-    let redirect_url = DEFAULT_ROUTES[ownerLogin.userType];
+    // Hasura returns an array, extract first element
+    const loginData = Array.isArray(ownerLogin) ? ownerLogin[0] : ownerLogin;
 
-    if (ownerLogin?.userType === 'VENDOR') {
-      onUseLocalStorage('save', SELECTED_VENDOR, ownerLogin.userId);
-      onUseLocalStorage('save', SELECTED_VENDOR_EMAIL, ownerLogin.email);
+    onUseLocalStorage('save', `user-${APP_NAME}`, JSON.stringify(loginData));
+    setUser(loginData);
+    let redirect_url = DEFAULT_ROUTES[loginData.userType];
+
+    if (loginData?.userType === 'VENDOR') {
+      onUseLocalStorage('save', SELECTED_VENDOR, loginData.userId);
+      onUseLocalStorage('save', SELECTED_VENDOR_EMAIL, loginData.email);
     }
 
-    if (ownerLogin?.userType === 'RESTAURANT') {
-      onUseLocalStorage('save', SELECTED_RESTAURANT, ownerLogin.userTypeId);
-      onUseLocalStorage('save', SELECTED_SHOPTYPE, ownerLogin?.shopType ?? '');
+    if (loginData?.userType === 'RESTAURANT') {
+      onUseLocalStorage('save', SELECTED_RESTAURANT, loginData.userTypeId);
+      onUseLocalStorage('save', SELECTED_SHOPTYPE, loginData?.shopType ?? '');
     }
 
     router.replace(redirect_url);
