@@ -3,6 +3,13 @@ import { Dialog } from 'primereact/dialog';
 import { IExtendedOrder, Items } from '@/lib/utils/interfaces';
 import './order-detail-modal.css';
 import { useConfiguration } from '@/lib/hooks/useConfiguration';
+import CustomDropdown from '../custom-dropdown';
+import CustomButton from '../button';
+import { useMutation } from '@apollo/client';
+import { UPDATE_STATUS } from '@/lib/api/graphql';
+import { useContext } from 'react';
+import { ToastContext } from '@/lib/context/global/toast.context';
+import { useTranslations } from 'next-intl';
 
 interface IOrderDetailModalProps {
   visible: boolean;
@@ -15,7 +22,27 @@ const OrderDetailModal: React.FC<IOrderDetailModalProps> = ({
   onHide,
   restaurantData,
 }) => {
+  const t = useTranslations();
   const { CURRENT_SYMBOL } = useConfiguration();
+  const { showToast } = useContext(ToastContext);
+
+  const [updateStatus, { loading: isUpdating }] = useMutation(UPDATE_STATUS, {
+    onCompleted: () => {
+      showToast({
+        type: 'success',
+        title: t('Status Updated'),
+        message: t('Order status has been updated successfully'),
+      });
+    },
+    onError: (error) => {
+      showToast({
+        type: 'error',
+        title: t('Error'),
+        message: error.message,
+      });
+    },
+  });
+
   const calculateSubtotal = (items: Items[]) => {
     let Subtotal = 0;
     for (let i = 0; i < items.length; i++) {
@@ -31,6 +58,32 @@ const OrderDetailModal: React.FC<IOrderDetailModalProps> = ({
     }
     return Subtotal.toFixed(2);
   };
+
+  const handleNotifyRider = () => {
+    if (!restaurantData) return;
+    const itemsText = restaurantData.items.map(item => `- ${item.quantity}x ${item.title}`).join('\n');
+    const message = `*Pedido:* ${restaurantData.orderId}\n` +
+      `*Cliente:* ${(restaurantData as any).user?.name}\n` +
+      `*Teléfono:* ${(restaurantData as any).user?.phone}\n` +
+      `*Dirección:* ${restaurantData.deliveryAddress.deliveryAddress}\n` +
+      `*Restaurante:* ${(restaurantData as any).restaurant?.name}\n` +
+      `*Items:*\n${itemsText}\n` +
+      `*Total:* ${CURRENT_SYMBOL || '$'}${restaurantData.orderAmount}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+  };
+
+  const statusOptions = [
+    { label: t('Pending'), value: 'PENDING' },
+    { label: t('Accepted'), value: 'ACCEPTED' },
+    { label: t('Preparing'), value: 'PREPARING' },
+    { label: t('PickUp'), value: 'PICKED_UP' },
+    { label: t('On The Way'), value: 'ON_THE_WAY' },
+    { label: t('Delivered'), value: 'DELIVERED' },
+    { label: t('Cancelled'), value: 'CANCELLED' },
+  ];
+
   if (!restaurantData) return null;
 
   return (
@@ -145,6 +198,31 @@ const OrderDetailModal: React.FC<IOrderDetailModalProps> = ({
             Delivery Address
           </h3>
           <p>{restaurantData.deliveryAddress.deliveryAddress}</p>
+        </div>
+
+        {/* Status and WhatsApp Section */}
+        <div className="order-section dark:bg-dark-600 !border-t-2 border-primary pt-4">
+          <div className="grid grid-cols-2 gap-4">
+            <CustomDropdown
+              name="status"
+              placeholder={t('Update Status')}
+              options={statusOptions}
+              selectedItem={restaurantData.orderStatus as any}
+              setSelectedItem={(_, val) => {
+                updateStatus({ variables: { id: restaurantData._id, orderStatus: val } });
+              }}
+              isLoading={isUpdating}
+              showLabel
+            />
+            <div className="flex items-end">
+              <CustomButton
+                label={t('Notify Rider')}
+                icon="pi pi-whatsapp"
+                className="bg-green-600 text-white w-full"
+                onClick={handleNotifyRider}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </Dialog>

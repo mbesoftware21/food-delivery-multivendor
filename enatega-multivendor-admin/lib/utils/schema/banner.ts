@@ -23,5 +23,5 @@ export const BannerSchema = Yup.object().shape({
       code: Yup.string().required('Required'),
     })
     .required('Required'),
-  file: Yup.string().required('Required'),
+  file: Yup.string().nullable().optional(),
 });

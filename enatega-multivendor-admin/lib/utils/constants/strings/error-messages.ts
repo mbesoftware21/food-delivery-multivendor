@@ -25,12 +25,12 @@ import { IFoodErrors } from '../../interfaces/forms/food.form.interface';
 import { INoticiationErrors } from '../../interfaces/forms/notification.form.interface';
 
 export const PasswordErrors = [
-  'at_least_6_characters',
-  'at_least_one_lowercase_letter_a_z',
-  'at_least_one_uppercase_letter_A_Z',
-  'at_least_one_number_0_9',
-  'at_least_one_special_character',
-  'password_does_not_match',
+  'At least 6 characters',
+  'At least one lowercase letter (a-z)',
+  'At least one uppercase letter (A-Z)',
+  'At least one number (0-9)',
+  'At least one special character',
+  'Password must match',
 ];
 
 export const SignUpErrors: ISignUpFormErrors = {
@@ -53,8 +53,8 @@ export const VendorErrors: IVendorErrors = {
   password: ['Required', ...PasswordErrors],
   confirmPassword: ['Required', 'Password must match'],
   image: ['Required', 'Invalid image URL'],
-  firstName: ['Required', 'Firstname cannot be only spaces'],
-  lastName: ['Required', 'Lastname cannot be only spaces'],
+  firstName: ['Required', 'First name cannot be only spaces'],
+  lastName: ['Required', 'Last name cannot be only spaces'],
   phoneNumber: ['Required', 'Minimum 5 Numbers are Required'],
 };
 

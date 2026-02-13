@@ -21,6 +21,7 @@ export default function CustomPhoneTextField({
   // mask,
   page,
   onChange,
+  error,
 }: IPhoneTextFieldProps) {
   // Transformed Country Codes
   // const transformedCountryCodes: IDropdownSelectItem[] =
@@ -47,17 +48,17 @@ export default function CustomPhoneTextField({
   const MaininputStyle =
     page === 'vendor-profile-edit'
       ? {
-          width: '100%',
-          borderRadius: '0 5px 5px 0',
-          height: '40px',
-          borderColor: style?.borderColor || '',
-        }
+        width: '100%',
+        borderRadius: '0 5px 5px 0',
+        height: '40px',
+        borderColor: style?.borderColor || '',
+      }
       : {
-          width: '100%',
-          borderRadius: '0 5px 5px 0',
-          height: '40px',
-          borderColor: style?.borderColor || '',
-        };
+        width: '100%',
+        borderRadius: '0 5px 5px 0',
+        height: '40px',
+        borderColor: style?.borderColor || '',
+      };
 
   return !isLoading ? (
     <div className="relative flex w-full flex-col justify-center gap-y-1">
@@ -82,6 +83,7 @@ export default function CustomPhoneTextField({
           }}
         />
       </div>
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   ) : (
     <InputSkeleton />

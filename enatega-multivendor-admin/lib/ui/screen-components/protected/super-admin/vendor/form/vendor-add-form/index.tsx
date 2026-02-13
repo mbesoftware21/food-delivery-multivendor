@@ -4,6 +4,7 @@ import { Form, Formik } from 'formik';
 import { useContext, useEffect, useState } from 'react';
 
 // Prime React
+import { ProgressBar } from 'primereact/progressbar';
 import { Sidebar } from 'primereact/sidebar';
 
 // Context
@@ -78,7 +79,7 @@ export default function VendorAddForm({
   });
 
   // Mutations
-  const [createVendor] = useMutation(
+  const [createVendor, { loading: mutationLoading }] = useMutation(
     isEditingVendor && vendorId ? EDIT_VENDOR : CREATE_VENDOR,
     {
       //  refetchQueries: [{ query: GET_VENDORS, fetchPolicy: 'network-only' }],
@@ -180,7 +181,16 @@ export default function VendorAddForm({
       onHide={() => onSetVendorFormVisible(false, false)}
       className="w-full sm:w-[450px] dark:text-white dark:bg-dark-950 border dark:border-dark-600 "
     >
-      <div className="flex h-full w-full items-center justify-start">
+      <div className="flex h-full w-full items-center justify-start relative">
+        {(mutationLoading) && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-white/50 dark:bg-dark-950/50 backdrop-blur-[2px]">
+            <ProgressBar
+              mode="indeterminate"
+              className="absolute top-0 left-0 w-full h-1"
+              style={{ height: '4px' }}
+            />
+          </div>
+        )}
         <div className="h-full w-full">
           <div className="flex flex-col gap-2">
             <div className="mb-2 flex flex-col">
@@ -221,15 +231,15 @@ export default function VendorAddForm({
                           onChange={handleChange}
                           isLoading={loading}
                           showLabel={true}
-                          style={{
-                            borderColor: onErrorMessageMatcher(
+                          error={
+                            onErrorMessageMatcher(
                               'firstName',
                               errors?.firstName,
                               VendorErrors
                             )
-                              ? 'red'
-                              : '',
-                          }}
+                              ? (errors?.firstName as string)
+                              : ''
+                          }
                         />
                         <CustomTextField
                           type="text"
@@ -240,15 +250,15 @@ export default function VendorAddForm({
                           onChange={handleChange}
                           isLoading={loading}
                           showLabel={true}
-                          style={{
-                            borderColor: onErrorMessageMatcher(
+                          error={
+                            onErrorMessageMatcher(
                               'lastName',
                               errors?.lastName,
                               VendorErrors
                             )
-                              ? 'red'
-                              : '',
-                          }}
+                              ? (errors?.lastName as string)
+                              : ''
+                          }
                         />
                         <CustomIconTextField
                           type="email"
@@ -264,15 +274,15 @@ export default function VendorAddForm({
                           value={values.email}
                           isLoading={loading}
                           onChange={handleChange}
-                          style={{
-                            borderColor: onErrorMessageMatcher(
+                          error={
+                            onErrorMessageMatcher(
                               'email',
                               errors?.email,
                               VendorErrors
                             )
-                              ? 'red'
-                              : '',
-                          }}
+                              ? (errors?.email as string)
+                              : ''
+                          }
                         />
 
                         <CustomPhoneTextField
@@ -287,15 +297,15 @@ export default function VendorAddForm({
                             // setCountryCode(code);
                           }}
                           type="text"
-                          style={{
-                            borderColor: onErrorMessageMatcher(
+                          error={
+                            onErrorMessageMatcher(
                               'phoneNumber',
                               errors?.phoneNumber,
                               VendorErrors
                             )
-                              ? 'red'
-                              : '',
-                          }}
+                              ? (errors?.phoneNumber as string)
+                              : ''
+                          }
                         />
 
                         <CustomPasswordTextField
@@ -307,15 +317,15 @@ export default function VendorAddForm({
                           showLabel={true}
                           isLoading={loading}
                           onChange={handleChange}
-                          style={{
-                            borderColor: onErrorMessageMatcher(
+                          error={
+                            onErrorMessageMatcher(
                               'password',
                               errors?.password,
                               VendorErrors
                             )
-                              ? 'red'
-                              : '',
-                          }}
+                              ? (errors?.password as string)
+                              : ''
+                          }
                         />
 
                         <CustomPasswordTextField
@@ -328,15 +338,15 @@ export default function VendorAddForm({
                           value={values.confirmPassword ?? ''}
                           onChange={handleChange}
                           feedback={false}
-                          style={{
-                            borderColor: onErrorMessageMatcher(
+                          error={
+                            onErrorMessageMatcher(
                               'confirmPassword',
                               errors?.confirmPassword,
                               VendorErrors
                             )
-                              ? 'red'
-                              : '',
-                          }}
+                              ? (errors?.confirmPassword as string)
+                              : ''
+                          }
                         />
                         <CustomUploadImageComponent
                           key="image"
@@ -350,15 +360,15 @@ export default function VendorAddForm({
                           onSetImageUrl={setFieldValue}
                           existingImageUrl={values.image}
                           showExistingImage={isEditingVendor ? true : false}
-                          style={{
-                            borderColor: onErrorMessageMatcher(
+                          error={
+                            onErrorMessageMatcher(
                               'image',
                               errors?.image as string,
                               VendorErrors
                             )
-                              ? 'red'
-                              : '',
-                          }}
+                              ? (errors?.image as string)
+                              : ''
+                          }
                         />
 
                         <div className="py-4 flex justify-end">
@@ -366,7 +376,7 @@ export default function VendorAddForm({
                             className="h-10 w-fit border-gray-300 border dark:border-dark-600 bg-black  px-8 text-white dark:text-white"
                             label={isEditingVendor ? t('Update') : t('Add')}
                             type="submit"
-                            loading={isSubmitting}
+                            loading={isSubmitting || mutationLoading}
                           />
                         </div>
                       </div>

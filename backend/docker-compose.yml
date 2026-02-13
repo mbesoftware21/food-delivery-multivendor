@@ -34,6 +34,7 @@ services:
       - ./fastapi:/app
     environment:
       - HASURA_GRAPHQL_URL=http://graphql-engine:8080/v1/graphql
+      - DATABASE_URL=postgres://postgres:postgrespassword@postgres:5432/enatega
     depends_on:
       - graphql-engine
 

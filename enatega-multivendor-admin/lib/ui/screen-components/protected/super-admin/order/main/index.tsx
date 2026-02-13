@@ -22,6 +22,7 @@ import OrderSuperAdminTableHeader from '../header/table-header';
 import OrderTableSkeleton from '@/lib/ui/useable-components/custom-skeletons/orders.vendor.row.skeleton';
 // import { ORDER_SUPER_ADMIN_COLUMNS } from '@/lib/ui/useable-components/table/columns/order-superadmin-columns';
 import OrderDetailModal from '@/lib/ui/useable-components/popup-menu/order-details-modal';
+import NewOrderModal from '@/lib/ui/useable-components/popup-menu/new-order-modal';
 import DashboardDateFilter from '@/lib/ui/useable-components/date-filter';
 import OrderTable from '../order-table';
 import ApiErrorAlert from '@/lib/ui/useable-components/api-error-alert';
@@ -29,7 +30,13 @@ import ApiErrorAlert from '@/lib/ui/useable-components/api-error-alert';
 import { FilterMatchMode } from 'primereact/api';
 import { DataTableRowClickEvent } from 'primereact/datatable';
 
-export default function OrderSuperAdminMain() {
+export default function OrderSuperAdminMain({
+  isNewOrderModalVisible,
+  onNewOrderModalHide,
+}: {
+  isNewOrderModalVisible?: boolean;
+  onNewOrderModalHide?: () => void;
+}) {
   const t = useTranslations();
   // States
   const [selectedData, setSelectedData] = useState<IExtendedOrder[]>([]);
@@ -78,15 +85,15 @@ export default function OrderSuperAdminMain() {
     }
   ) as IQueryResult<
     | {
-        allOrdersPaginated: {
-          totalCount: number;
-          currentPage: number;
-          totalPages: number;
-          prevPage: number;
-          nextPage: number;
-          orders: IOrder[];
-        };
-      }
+      allOrdersPaginated: {
+        totalCount: number;
+        currentPage: number;
+        totalPages: number;
+        prevPage: number;
+        nextPage: number;
+        orders: IOrder[];
+      };
+    }
     | undefined,
     IPaginationVars
   >;
@@ -175,9 +182,9 @@ export default function OrderSuperAdminMain() {
           data={
             data?.allOrdersPaginated
               ? {
-                  ...data.allOrdersPaginated,
-                  orders: displayData as IExtendedOrder[],
-                }
+                ...data.allOrdersPaginated,
+                orders: displayData as IExtendedOrder[],
+              }
               : undefined
           }
           loading={loading}
@@ -200,6 +207,10 @@ export default function OrderSuperAdminMain() {
         visible={isModalOpen}
         onHide={() => setIsModalOpen(false)}
         restaurantData={selectedRestaurant}
+      />
+      <NewOrderModal
+        visible={isNewOrderModalVisible || false}
+        onHide={onNewOrderModalHide || (() => { })}
       />
 
       <ApiErrorAlert

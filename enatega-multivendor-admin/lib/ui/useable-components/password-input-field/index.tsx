@@ -11,6 +11,7 @@ export default function CustomPasswordTextField({
   showLabel,
   feedback = true,
   isLoading = false,
+  error,
   ...props
 }: IPasswordTextFieldProps) {
   const t = useTranslations();
@@ -24,7 +25,7 @@ export default function CustomPasswordTextField({
       )}
       <Password
         className={twMerge(
-          `icon-right h-10 w-full rounded-lg border border-gray-300 dark:border-dark-600 border-inherit pr-8 text-sm focus:shadow-none focus:outline-none`,
+          `icon-right h-10 w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300 dark:border-dark-600'} border-inherit pr-8 text-sm focus:shadow-none focus:outline-none`,
           className
         )}
         placeholder={placeholder}
@@ -47,6 +48,7 @@ export default function CustomPasswordTextField({
           });
         }}
       />
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   ) : (
     <InputSkeleton />

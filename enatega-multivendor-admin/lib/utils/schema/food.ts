@@ -14,5 +14,5 @@ export const FoodSchema = Yup.object().shape({
     .nullable(),
   category: Yup.mixed<IDropdownSelectItem>().required('Required'),
   subCategory: Yup.mixed<IDropdownSelectItem>().nullable().optional(),
-  image: Yup.string().url('Invalid image URL').required('Required'),
+  image: Yup.string().url('Invalid image URL').nullable().optional(),
 });

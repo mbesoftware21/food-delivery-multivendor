@@ -2,6 +2,7 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 
 // Prime React
+import { ProgressBar } from 'primereact/progressbar';
 import { Sidebar } from 'primereact/sidebar';
 
 // Interface and Types
@@ -130,7 +131,14 @@ export default function RiderAddForm({
       onHide={onHide}
       className="w-full sm:w-[450px] dark:text-white dark:bg-dark-950 border dark:border-dark-600"
     >
-      <div className="flex h-full w-full items-center justify-start">
+      <div className="flex h-full w-full items-center justify-start relative">
+        {mutationLoading && (
+          <ProgressBar
+            mode="indeterminate"
+            className="absolute top-0 left-0 w-full h-1"
+            style={{ height: '4px' }}
+          />
+        )}
         <div className="h-full w-full">
           <div className="flex flex-col gap-2">
             <div className="mb-2 flex flex-col">
@@ -154,7 +162,7 @@ export default function RiderAddForm({
                   handleChange,
                   handleSubmit,
                   setFieldValue,
-                  setFieldTouched ,
+                  setFieldTouched,
                   touched
                 }) => {
                   return (

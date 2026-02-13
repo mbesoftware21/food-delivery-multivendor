@@ -25,6 +25,7 @@ export default function CustomIconTextField({
   placeholder,
   showLabel,
   isLoading = false,
+  error,
   ...props
 }: IIconTextFieldProps) {
   const { icon, position, style } = iconProperties;
@@ -43,12 +44,13 @@ export default function CustomIconTextField({
         )}
         <InputText
           className={twMerge(
-            `h-10 w-full rounded-lg border border-gray-300 px-2 text-sm focus:shadow-none focus:outline-none`,
+            `h-10 w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} px-2 text-sm focus:shadow-none focus:outline-none`,
             className
           )}
           placeholder={placeholder}
           {...props}
         />
+        {error && <p className="text-sm text-red-500">{error}</p>}
       </div>
     </IconField>
   ) : (

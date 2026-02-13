@@ -9,23 +9,23 @@ export const RestaurantSchema = Yup.object().shape({
     .required('Required'),
   username: Yup.string().email('Invalid email').required('Required'),
   password: Yup.string()
-  .required('Required')
-  .min(6, 'At least 6 characters')
-  .matches(/[a-z]/, 'At least one lowercase letter (a-z)')
-  .matches(/[A-Z]/, 'At least one uppercase letter (A-Z)')
-  .matches(/[0-9]/, 'At least one number (0-9)')
-  .matches(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, 'At least one special character'),
+    .required('Required')
+    .min(6, 'At least 6 characters')
+    .matches(/[a-z]/, 'At least one lowercase letter (a-z)')
+    .matches(/[A-Z]/, 'At least one uppercase letter (A-Z)')
+    .matches(/[0-9]/, 'At least one number (0-9)')
+    .matches(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, 'At least one special character'),
   confirmPassword: Yup.string()
     .nullable()
     .oneOf([Yup.ref('password'), null], 'Password must match')
     .required('Required'),
-    address: Yup.string()
+  address: Yup.string()
     .max(100, 'Maximum 100 characters allowed')
     .trim()
     .matches(/\S/, 'Address cannot be only spaces')
     .matches(/[a-zA-Z]/, 'Address must contain at least one letter.')
     .required('Required'),
-  
+
   deliveryTime: Yup.number()
     .required('Required')
     .min(1, 'The value must be greater than or equal to 1'),
@@ -39,7 +39,7 @@ export const RestaurantSchema = Yup.object().shape({
     .min(1, 'Cuisines field must have at least 1 items')
     .required('Required'),
 
-  image: Yup.string().url('Invalid image URL').required('Required'),
-  logo: Yup.string().url('Invalid logo URL').required('Required'),
-  phoneNumber: Yup.string().required('Required').min(5,"Minimum 5 Numbers are Required"),
+  image: Yup.string().url('Invalid image URL').nullable().optional(),
+  logo: Yup.string().url('Invalid logo URL').nullable().optional(),
+  phoneNumber: Yup.string().required('Required').min(5, "Minimum 5 Numbers are Required"),
 });

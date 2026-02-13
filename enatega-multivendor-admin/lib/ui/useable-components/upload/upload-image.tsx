@@ -51,6 +51,7 @@ function CustomUploadImageComponent({
     'video/webm',
     'video/mp4',
   ],
+  error,
 }: IImageUploadComponentProps) {
   // Context
   // const configuration: IConfiguration | undefined =
@@ -86,7 +87,7 @@ function CustomUploadImageComponent({
     async (file: File): Promise<void> => {
       setIsUploading(true);
       setImageFile(URL.createObjectURL(file));
-      
+
       try {
         // Compress file based on type
         let processedFile: File;
@@ -97,20 +98,20 @@ function CustomUploadImageComponent({
         } else {
           processedFile = file;
         }
-        
+
         // Convert to base64
         const base64 = await new Promise<string>((resolve) => {
           const reader = new FileReader();
           reader.onloadend = () => resolve(reader.result as string);
           reader.readAsDataURL(processedFile);
         });
-        
+
         const { data } = await uploadToS3({
           variables: { image: base64 }
         });
-        
+
         const imageUrl = data?.uploadImageToS3?.imageUrl;
-        
+
         if (imageUrl) {
           onSetImageUrl(name, imageUrl);
           showToast({
@@ -177,12 +178,12 @@ function CustomUploadImageComponent({
             ? `bg-transparnt`
             : `mx-auto flex h-48 w-48 flex-col items-center justify-start border-2 border-dashed ${imageValidationErr.bool ? 'border-red-900' : 'border-gray-300 dark:border-dark-600'}`
         }
-        // className="bg-transparnt"
+      // className="bg-transparnt"
       >
         <FileUpload
           headerClassName='dark:text-white'
           contentClassName='dark:text-white'
-          
+
           accept={fileTypes?.join(',')}
           id={`${name}-upload`}
           className="mx-auto -mt-7 h-28 w-44 items-center dark:text-white justify-center rounded-md bg-transparent"
@@ -243,7 +244,7 @@ function CustomUploadImageComponent({
             const { chooseButton, cancelButton } = options;
             return (
               <button
-              className='dark:text-white'
+                className='dark:text-white'
                 type="button"
                 onClick={() =>
                   handleCancelClick(imageFile ? 'cancel' : 'choose')
@@ -259,15 +260,15 @@ function CustomUploadImageComponent({
           chooseOptions={
             page === 'vendor-profile-edit'
               ? {
-                  className: `z-50 bg-white dark:text-white dark:bg-dark-950 max-[500px]:ml-[-20px] ${!imageFile ? 'text-gray-700' : imageValidationErr.bool && !imageFile ? 'text-[#E4E4E7]' : 'text-[#E4E4E7]'} border border-[#E4E4E7] dark:border-dark-600 rounded-md items-center justify-center relative left-[20%] translate-y-[45px] w-[173px] h-[40px] text-[14px] gap-[5px] font-medium`,
-                  label: t('Upload Image'),
-                  icon: () => <FontAwesomeIcon icon={faArrowUpFromBracket} />,
-                }
+                className: `z-50 bg-white dark:text-white dark:bg-dark-950 max-[500px]:ml-[-20px] ${!imageFile ? 'text-gray-700' : imageValidationErr.bool && !imageFile ? 'text-[#E4E4E7]' : 'text-[#E4E4E7]'} border border-[#E4E4E7] dark:border-dark-600 rounded-md items-center justify-center relative left-[20%] translate-y-[45px] w-[173px] h-[40px] text-[14px] gap-[5px] font-medium`,
+                label: t('Upload Image'),
+                icon: () => <FontAwesomeIcon icon={faArrowUpFromBracket} />,
+              }
               : {
-                  className: `z-50 bg-gray-200 ${!imageFile ? 'text-gray-700' : imageValidationErr.bool && !imageFile ? 'text-red-900' : 'text-gray-700'} border border-gray-500 dark:border-dark-600 rounded-md items-center justify-center relative left-[20%] translate-y-[45px] w-32 h-8 text-xs`,
-                  label: t('Browse Files'),
-                  icon: () => <></>,
-                }
+                className: `z-50 bg-gray-200 ${!imageFile ? 'text-gray-700' : imageValidationErr.bool && !imageFile ? 'text-red-900' : 'text-gray-700'} border border-gray-500 dark:border-dark-600 rounded-md items-center justify-center relative left-[20%] translate-y-[45px] w-32 h-8 text-xs`,
+                label: t('Browse Files'),
+                icon: () => <></>,
+              }
           }
           cancelOptions={{
             className: 'text-xs',
@@ -320,7 +321,7 @@ function CustomUploadImageComponent({
         />
       </div>
       <div className="mx-auto text-[10px] font-[600] text-red-800">
-        {imageValidationErr.msg}
+        {error || imageValidationErr.msg}
       </div>
     </div>
   );
