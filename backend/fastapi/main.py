@@ -19,7 +19,7 @@ if not os.path.exists(UPLOAD_DIR):
 app.mount("/static", StaticFiles(directory=UPLOAD_DIR), name="static")
 
 # Database Configuration
-DATABASE_URL = os.getenv("DATABASE_URL", "postgres://postgres:postgrespassword@postgres:5432/enatega")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgres://postgres:postgrespassword@localhost:5432/enatega")
 db_pool = pool.SimpleConnectionPool(1, 10, DATABASE_URL)
 
 # Base URL for images
@@ -60,6 +60,30 @@ class UserInput(BaseModel):
     email: str
     password: str
     phone: Optional[str] = None
+
+class OpeningTimeInput(BaseModel):
+    day: str
+    startTime: str
+    endTime: str
+    isClosed: Optional[bool] = False
+
+class RestaurantInput(BaseModel):
+    _id: Optional[str] = None
+    name: str
+    address: str
+    image: Optional[str] = None
+    logo: Optional[str] = None
+    phone: Optional[str] = None
+    deliveryTime: Optional[int] = 30
+    minimumOrder: Optional[float] = 0
+    tax: Optional[float] = 0
+    slug: Optional[str] = None
+    owner: Optional[str] = None
+    username: Optional[str] = None
+    password: Optional[str] = None
+    shopType: Optional[str] = None
+    cuisines: Optional[List[str]] = []
+    openingTimes: Optional[List[OpeningTimeInput]] = []
 
 @app.post("/createVendor")
 def create_vendor(req: dict):
@@ -145,6 +169,115 @@ def edit_vendor(req: dict):
     except Exception as e:
         conn.rollback()
         print(f"Error editing vendor: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/createStore")
+def create_store(req: dict):
+    params = req.get("input", {})
+    ri = params.get("restaurant", {})
+    owner_id = params.get("owner")
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO restaurants (name, address, image, logo, phone, delivery_time, owner_id, slug)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+            """, (
+                ri.get("name"), ri.get("address"), ri.get("image"), ri.get("logo"),
+                ri.get("phone"), ri.get("deliveryTime", 30), owner_id, ri.get("slug")
+            ))
+            res_id = cur.fetchone()[0]
+            
+            cur.execute("""
+                INSERT INTO restaurant_settings (restaurant_id, minimum_order, tax)
+                VALUES (%s, %s, %s)
+            """, (res_id, ri.get("minimumOrder", 0), ri.get("tax", 0)))
+            
+            opening_times = ri.get("openingTimes", [])
+            for ot in opening_times:
+                cur.execute("""
+                    INSERT INTO opening_times (restaurant_id, day, start_time, end_time, is_closed)
+                    VALUES (%s, %s, %s, %s, %s)
+                """, (res_id, ot.get("day"), ot.get("startTime"), ot.get("endTime"), ot.get("isClosed", False)))
+            
+            conn.commit()
+            return {
+                "_id": str(res_id),
+                "name": ri.get("name"),
+                "slug": ri.get("slug")
+            }
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/editStore")
+def edit_store(req: dict):
+    params = req.get("input", {})
+    ri = params.get("restaurant", {})
+    res_id = ri.get("_id")
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                UPDATE restaurants SET 
+                    name = COALESCE(%s, name),
+                    address = COALESCE(%s, address),
+                    image = COALESCE(%s, image),
+                    logo = COALESCE(%s, logo),
+                    phone = COALESCE(%s, phone),
+                    delivery_time = COALESCE(%s, delivery_time),
+                    slug = COALESCE(%s, slug),
+                    updated_at = NOW()
+                WHERE id = %s
+            """, (
+                ri.get("name"), ri.get("address"), ri.get("image"), ri.get("logo"),
+                ri.get("phone"), ri.get("deliveryTime"), ri.get("slug"), res_id
+            ))
+            
+            cur.execute("""
+                UPDATE restaurant_settings SET
+                    minimum_order = COALESCE(%s, minimum_order),
+                    tax = COALESCE(%s, tax),
+                    updated_at = NOW()
+                WHERE restaurant_id = %s
+            """, (ri.get("minimumOrder"), ri.get("tax"), res_id))
+            
+            if "openingTimes" in ri:
+                cur.execute("DELETE FROM opening_times WHERE restaurant_id = %s", (res_id,))
+                for ot in ri["openingTimes"]:
+                    cur.execute("""
+                        INSERT INTO opening_times (restaurant_id, day, start_time, end_time, is_closed)
+                        VALUES (%s, %s, %s, %s, %s)
+                    """, (res_id, ot.get("day"), ot.get("startTime"), ot.get("endTime"), ot.get("isClosed", False)))
+            
+            conn.commit()
+            return {"success": True}
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/deleteStore")
+def delete_store(req: dict):
+    params = req.get("input", {})
+    res_id = params.get("id")
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("UPDATE restaurants SET is_active = false WHERE id = %s", (res_id,))
+            conn.commit()
+            return {"success": True}
+    except Exception as e:
+        conn.rollback()
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         db_pool.putconn(conn)
@@ -444,6 +577,143 @@ async def upload_image_local(req: dict):
 @app.get("/")
 def read_root():
     return {"Hello": "World", "Service": "Enatega Backend"}
+
+@app.post("/restaurantByOwner")
+def restaurant_by_owner(req: dict):
+    """
+    Hasura Query for restaurantByOwner.
+    Expects { "input": { "id": "owner-uuid" } }
+    """
+    params = req.get("input", {})
+    owner_id = params.get("id")
+    
+    if not owner_id:
+        raise HTTPException(status_code=400, detail="Owner ID is required")
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            # Get user info
+            cur.execute("""
+                SELECT id, email, user_type
+                FROM users
+                WHERE id = %s
+            """, (owner_id,))
+            
+            user_row = cur.fetchone()
+            if not user_row:
+                return {
+                    "_id": owner_id,
+                    "email": "",
+                    "userType": "",
+                    "restaurants": []
+                }
+            
+            # Get restaurants with settings
+            cur.execute("""
+                SELECT 
+                    r.id, r.name, r.slug, r.image,
+                    r.address, r.is_active, r.delivery_time, r.minimum_order,
+                    r.location, rs.tax, r.delivery_charges
+                FROM restaurants r
+                LEFT JOIN restaurant_settings rs ON r.id = rs.restaurant_id
+                WHERE r.owner_id = %s
+                ORDER BY r.created_at DESC
+            """, (owner_id,))
+            
+            restaurant_rows = cur.fetchall()
+            restaurants = []
+            
+            for row in restaurant_rows:
+                rest_id = row[0]
+                
+                delivery_row = None
+                
+                # Get opening times
+                cur.execute("""
+                    SELECT day, start_time, end_time
+                    FROM opening_times
+                    WHERE restaurant_id = %s
+                    ORDER BY 
+                        CASE day
+                            WHEN 'MONDAY' THEN 1
+                            WHEN 'TUESDAY' THEN 2
+                            WHEN 'WEDNESDAY' THEN 3
+                            WHEN 'THURSDAY' THEN 4
+                            WHEN 'FRIDAY' THEN 5
+                            WHEN 'SATURDAY' THEN 6
+                            WHEN 'SUNDAY' THEN 7
+                        END
+                """, (rest_id,))
+                timing_rows = cur.fetchall()
+                
+                opening_times = []
+                for t_row in timing_rows:
+                    start_hour = str(t_row[1].hour)
+                    start_min = str(t_row[1].minute).zfill(2)
+                    end_hour = str(t_row[2].hour)
+                    end_min = str(t_row[2].minute).zfill(2)
+                    
+                    opening_times.append({
+                        "day": t_row[0],
+                        "times": [{
+                            "startTime": [start_hour, start_min],
+                            "endTime": [end_hour, end_min]
+                        }]
+                    })
+                
+                # Build location
+                location = None
+                if row[8]:  # location column
+                    try:
+                        # Extract coordinates from geography
+                        cur.execute("""
+                            SELECT ST_X(%s::geometry), ST_Y(%s::geometry)
+                        """, (row[8], row[8]))
+                        coords = cur.fetchone()
+                        if coords:
+                            location = {
+                                "coordinates": [coords[0], coords[1]]
+                            }
+                    except:
+                        location = None
+                
+                restaurants.append({
+                    "_id": str(rest_id),
+                    "unique_restaurant_id": str(rest_id),
+                    "orderId": None,
+                    "orderPrefix": None,
+                    "name": row[1],
+                    "slug": row[2],
+                    "image": row[3],
+                    "address": row[4],
+                    "isActive": row[5],
+                    "deliveryTime": row[6],
+                    "minimumOrder": float(row[7]) if row[7] else 0,
+                    "username": "",
+                    "password": "",
+                    "location": location,
+                    "deliveryInfo": {
+                        "minDeliveryFee": 0,
+                        "deliveryDistance": 0,
+                        "deliveryFee": float(row[10]) if row[10] else 0
+                    },
+                    "openingTimes": opening_times,
+                    "shopType": "RESTAURANT" # Default value
+                })
+            
+            return {
+                "_id": str(user_row[0]),
+                "email": user_row[1],
+                "userType": user_row[2],
+                "restaurants": restaurants
+            }
+            
+    except Exception as e:
+        print(f"Error fetching restaurants by owner: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
 
 @app.get("/health")
 def health_check():

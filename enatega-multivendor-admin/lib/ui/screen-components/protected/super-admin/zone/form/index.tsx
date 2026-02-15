@@ -111,7 +111,7 @@ export default function ZoneAddForm({
           const message =
             graphQLErrors[0]?.message ??
             networkError?.message ??
-            t('Something went wrong, Please try again');
+            t('Something_went_wrong');
 
           showToast({
             type: 'error',

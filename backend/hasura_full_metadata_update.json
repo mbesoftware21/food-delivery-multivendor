@@ -1,0 +1,261 @@
+{
+    "type": "bulk",
+    "args": [
+        {
+            "type": "set_custom_types",
+            "args": {
+                "scalars": [],
+                "enums": [],
+                "input_objects": [
+                    {
+                        "name": "VendorInput",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "email",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "password",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "image",
+                                "type": "String"
+                            },
+                            {
+                                "name": "firstName",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "lastName",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "phoneNumber",
+                                "type": "String!"
+                            }
+                        ]
+                    }
+                ],
+                "objects": [
+                    {
+                        "name": "UploadImageResponse",
+                        "fields": [
+                            {
+                                "name": "imageUrl",
+                                "type": "String!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "VendorResponse",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "email",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "password",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "phoneNumber",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "userType",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "image",
+                                "type": "String"
+                            },
+                            {
+                                "name": "firstName",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "lastName",
+                                "type": "String!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "OpeningTimeInput",
+                        "fields": [
+                            {
+                                "name": "day",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "startTime",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "endTime",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "isClosed",
+                                "type": "Boolean"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "RestaurantInputCustom",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "address",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "image",
+                                "type": "String"
+                            },
+                            {
+                                "name": "logo",
+                                "type": "String"
+                            },
+                            {
+                                "name": "phone",
+                                "type": "String"
+                            },
+                            {
+                                "name": "deliveryTime",
+                                "type": "Int"
+                            },
+                            {
+                                "name": "minimumOrder",
+                                "type": "Float"
+                            },
+                            {
+                                "name": "tax",
+                                "type": "Float"
+                            },
+                            {
+                                "name": "slug",
+                                "type": "String"
+                            },
+                            {
+                                "name": "openingTimes",
+                                "type": "[OpeningTimeInput!]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "CreateStoreResponse",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "slug",
+                                "type": "String"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "SuccessResponse",
+                        "fields": [
+                            {
+                                "name": "success",
+                                "type": "Boolean!"
+                            },
+                            {
+                                "name": "message",
+                                "type": "String"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "create_action",
+            "args": {
+                "name": "createStore",
+                "definition": {
+                    "arguments": [
+                        {
+                            "name": "restaurant",
+                            "type": "RestaurantInputCustom!"
+                        },
+                        {
+                            "name": "owner",
+                            "type": "String!"
+                        }
+                    ],
+                    "handler": "http://fastapi-service:8000/createStore",
+                    "kind": "synchronous",
+                    "output_type": "CreateStoreResponse",
+                    "type": "mutation"
+                }
+            }
+        },
+        {
+            "type": "create_action",
+            "args": {
+                "name": "editStore",
+                "definition": {
+                    "arguments": [
+                        {
+                            "name": "restaurant",
+                            "type": "RestaurantInputCustom!"
+                        }
+                    ],
+                    "handler": "http://fastapi-service:8000/editStore",
+                    "kind": "synchronous",
+                    "output_type": "SuccessResponse",
+                    "type": "mutation"
+                }
+            }
+        },
+        {
+            "type": "create_action",
+            "args": {
+                "name": "deleteStore",
+                "definition": {
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "String!"
+                        }
+                    ],
+                    "handler": "http://fastapi-service:8000/deleteStore",
+                    "kind": "synchronous",
+                    "output_type": "SuccessResponse",
+                    "type": "mutation"
+                }
+            }
+        }
+    ]
+}

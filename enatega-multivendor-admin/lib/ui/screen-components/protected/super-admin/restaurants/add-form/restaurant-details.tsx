@@ -115,7 +115,7 @@ export default function RestaurantDetailsForm({
 
   // Props
   const { onStepChange, order } = stepperProps ?? {
-    onStepChange: () => {},
+    onStepChange: () => { },
     type: '',
     order: -1,
   };
@@ -217,13 +217,15 @@ export default function RestaurantDetailsForm({
             logo: data.logo,
             deliveryTime: data.deliveryTime,
             minimumOrder: data.minOrder,
+            tax: data.salesTax,
             username: data.username,
             password: data.password,
             shopType: data.shopType?.code,
-            salesTax: data.salesTax,
             cuisines: data.cuisines.map(
               (cuisin: IDropdownSelectItem) => cuisin.code
             ),
+            slug: data.name.toLowerCase().replace(/ /g, '-'),
+            openingTimes: [], // Will be updated in later step
           },
         },
       });

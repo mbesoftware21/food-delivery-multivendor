@@ -1,34 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const CREATE_RESTAURANT = gql`
-  mutation CreateRestaurant($restaurant: RestaurantInput!, $owner: ID!) {
-    createRestaurant(restaurant: $restaurant, owner: $owner) {
+  mutation CreateRestaurant($restaurant: RestaurantInputCustom!, $owner: String!) {
+    createRestaurant: createStore(restaurant: $restaurant, owner: $owner) {
       _id
       name
-      image
-      username
-      orderPrefix
       slug
-      phone
-      address
-      deliveryTime
-      minimumOrder
-      isActive
-      commissionRate
-      tax
-      owner {
-        _id
-        email
-        isActive
-      }
-      shopType
-      orderId
-      logo
-      password
-      location {
-        coordinates
-      }
-      cuisines
+      username
     }
   }
 `;
@@ -36,9 +14,9 @@ export const CREATE_RESTAURANT = gql`
 // Delete
 export const DELETE_RESTAURANT = gql`
   mutation DeleteRestaurant($id: String!) {
-    deleteRestaurant(id: $id) {
-      _id
-      isActive
+    result: deleteStore(id: $id) {
+      success
+      message
     }
   }
 `;
@@ -86,33 +64,10 @@ export const UPDATE_DELIVERY_BOUNDS_AND_LOCATION = gql`
 `;
 
 export const EDIT_RESTAURANT = gql`
-  mutation EditRestaurant($restaurantInput: RestaurantProfileInput!) {
-    editRestaurant(restaurant: $restaurantInput) {
-      _id
-      orderId
-      orderPrefix
-      name
-      phone
-      image
-      logo
-      slug
-      address
-      username
-      password
-      location {
-        coordinates
-      }
-      isAvailable
-      minimumOrder
-      tax
-      openingTimes {
-        day
-        times {
-          startTime
-          endTime
-        }
-      }
-      shopType
+  mutation EditRestaurant($restaurantInput: RestaurantInputCustom!) {
+    editRestaurant: editStore(restaurant: $restaurantInput) {
+      success
+      message
     }
   }
 `;

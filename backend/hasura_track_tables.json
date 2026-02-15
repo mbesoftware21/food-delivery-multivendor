@@ -1,0 +1,69 @@
+{
+    "type": "bulk",
+    "args": [
+        {
+            "type": "pg_track_table",
+            "args": {
+                "source": "default",
+                "table": "restaurant_settings"
+            }
+        },
+        {
+            "type": "pg_track_table",
+            "args": {
+                "source": "default",
+                "table": "opening_times"
+            }
+        },
+        {
+            "type": "pg_create_object_relationship",
+            "args": {
+                "source": "default",
+                "table": "restaurant_settings",
+                "name": "restaurant",
+                "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                }
+            }
+        },
+        {
+            "type": "pg_create_array_relationship",
+            "args": {
+                "source": "default",
+                "table": "restaurants",
+                "name": "settings",
+                "using": {
+                    "foreign_key_constraint_on": {
+                        "table": "restaurant_settings",
+                        "column": "restaurant_id"
+                    }
+                }
+            }
+        },
+        {
+            "type": "pg_create_object_relationship",
+            "args": {
+                "source": "default",
+                "table": "opening_times",
+                "name": "restaurant",
+                "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                }
+            }
+        },
+        {
+            "type": "pg_create_array_relationship",
+            "args": {
+                "source": "default",
+                "table": "restaurants",
+                "name": "opening_times",
+                "using": {
+                    "foreign_key_constraint_on": {
+                        "table": "opening_times",
+                        "column": "restaurant_id"
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "type": "pg_untrack_function",
+    "args": {
+        "source": "default",
+        "function": {
+            "schema": "public",
+            "name": "restaurant_by_owner"
+        }
+    }
+}

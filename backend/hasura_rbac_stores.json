@@ -1,0 +1,108 @@
+{
+    "type": "bulk",
+    "args": [
+        {
+            "type": "pg_create_select_permission",
+            "args": {
+                "source": "default",
+                "table": "restaurants",
+                "role": "vendor",
+                "permission": {
+                    "columns": "*",
+                    "filter": {
+                        "owner_id": {
+                            "_eq": "X-Hasura-User-Id"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "type": "pg_create_update_permission",
+            "args": {
+                "source": "default",
+                "table": "restaurants",
+                "role": "vendor",
+                "permission": {
+                    "columns": [
+                        "name",
+                        "address",
+                        "image",
+                        "logo",
+                        "phone",
+                        "delivery_time",
+                        "is_available",
+                        "slug"
+                    ],
+                    "filter": {
+                        "owner_id": {
+                            "_eq": "X-Hasura-User-Id"
+                        }
+                    },
+                    "check": null
+                }
+            }
+        },
+        {
+            "type": "pg_create_select_permission",
+            "args": {
+                "source": "default",
+                "table": "restaurant_settings",
+                "role": "vendor",
+                "permission": {
+                    "columns": "*",
+                    "filter": {
+                        "restaurant": {
+                            "owner_id": {
+                                "_eq": "X-Hasura-User-Id"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "type": "pg_create_update_permission",
+            "args": {
+                "source": "default",
+                "table": "restaurant_settings",
+                "role": "vendor",
+                "permission": {
+                    "columns": [
+                        "minimum_order",
+                        "tax",
+                        "commission_rate",
+                        "is_delivery_enabled",
+                        "is_pickup_enabled"
+                    ],
+                    "filter": {
+                        "restaurant": {
+                            "owner_id": {
+                                "_eq": "X-Hasura-User-Id"
+                            }
+                        }
+                    },
+                    "check": null
+                }
+            }
+        },
+        {
+            "type": "pg_create_select_permission",
+            "args": {
+                "source": "default",
+                "table": "opening_times",
+                "role": "vendor",
+                "permission": {
+                    "columns": "*",
+                    "filter": {
+                        "restaurant": {
+                            "owner_id": {
+                                "_eq": "X-Hasura-User-Id"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

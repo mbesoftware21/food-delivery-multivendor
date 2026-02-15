@@ -1,0 +1,49 @@
+{
+    "type": "bulk",
+    "args": [
+        {
+            "type": "pg_track_function",
+            "args": {
+                "source": "default",
+                "function": {
+                    "schema": "public",
+                    "name": "restaurant_by_owner"
+                },
+                "configuration": {
+                    "custom_name": "restaurantByOwner",
+                    "custom_root_fields": {
+                        "function": "restaurantByOwner"
+                    }
+                }
+            }
+        },
+        {
+            "type": "pg_create_function_permission",
+            "args": {
+                "source": "default",
+                "function": {
+                    "schema": "public",
+                    "name": "restaurant_by_owner"
+                },
+                "role": "vendor",
+                "permission": {
+                    "filter": {}
+                }
+            }
+        },
+        {
+            "type": "pg_create_function_permission",
+            "args": {
+                "source": "default",
+                "function": {
+                    "schema": "public",
+                    "name": "restaurant_by_owner"
+                },
+                "role": "admin",
+                "permission": {
+                    "filter": {}
+                }
+            }
+        }
+    ]
+}

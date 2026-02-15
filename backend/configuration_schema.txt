@@ -1,0 +1,69 @@
+                                            Table "public.configuration"
+          Column           |           Type           | Collation | Nullable |                Default                
+---------------------------+--------------------------+-----------+----------+---------------------------------------
+ id                        | uuid                     |           | not null | uuid_generate_v4()
+ currency                  | text                     |           |          | 'USD'::text
+ currency_symbol           | text                     |           |          | '$'::text
+ delivery_rate             | numeric(10,2)            |           |          | 5.00
+ tax_rate                  | numeric(5,2)             |           |          | 0
+ commission_rate           | numeric(5,2)             |           |          | 10
+ stripe_publishable_key    | text                     |           |          | 
+ stripe_secret_key         | text                     |           |          | 
+ google_maps_key           | text                     |           |          | 
+ cloudinary_upload_url     | text                     |           |          | 
+ cloudinary_api_key        | text                     |           |          | 
+ twilio_enabled            | boolean                  |           |          | false
+ twilio_account_sid        | text                     |           |          | 
+ twilio_auth_token         | text                     |           |          | 
+ twilio_phone_number       | text                     |           |          | 
+ created_at                | timestamp with time zone |           |          | now()
+ updated_at                | timestamp with time zone |           |          | now()
+ _id                       | text                     |           |          | generated always as (id::text) stored
+ email                     | text                     |           |          | 
+ email_name                | text                     |           |          | 
+ password                  | text                     |           |          | 
+ enable_email              | boolean                  |           |          | false
+ client_id                 | text                     |           |          | 
+ client_secret             | text                     |           |          | 
+ sandbox                   | boolean                  |           |          | false
+ secret_key                | text                     |           |          | 
+ twilio_whatsapp_number    | text                     |           |          | 
+ skip_whatsapp_otp         | boolean                  |           |          | false
+ form_email                | text                     |           |          | 
+ sendgrid_api_key          | text                     |           |          | 
+ sendgrid_enabled          | boolean                  |           |          | false
+ sendgrid_email            | text                     |           |          | 
+ sendgrid_email_name       | text                     |           |          | 
+ sendgrid_password         | text                     |           |          | 
+ dashboard_sentry_url      | text                     |           |          | 
+ web_sentry_url            | text                     |           |          | 
+ api_sentry_url            | text                     |           |          | 
+ customer_app_sentry_url   | text                     |           |          | 
+ restaurant_app_sentry_url | text                     |           |          | 
+ rider_app_sentry_url      | text                     |           |          | 
+ google_maps_libraries     | text                     |           |          | 
+ google_color              | text                     |           |          | 
+ terms_and_conditions      | text                     |           |          | 
+ privacy_policy            | text                     |           |          | 
+ test_otp                  | text                     |           |          | 
+ firebase_key              | text                     |           |          | 
+ auth_domain               | text                     |           |          | 
+ project_id                | text                     |           |          | 
+ storage_bucket            | text                     |           |          | 
+ msg_sender_id             | text                     |           |          | 
+ app_id                    | text                     |           |          | 
+ measurement_id            | text                     |           |          | 
+ is_paid_version           | boolean                  |           |          | false
+ skip_email_verification   | boolean                  |           |          | false
+ skip_mobile_verification  | boolean                  |           |          | false
+ cost_type                 | text                     |           |          | 
+ vapid_key                 | text                     |           |          | 
+ web_client_id             | text                     |           |          | 
+ android_client_id         | text                     |           |          | 
+ ios_client_id             | text                     |           |          | 
+ expo_client_id            | text                     |           |          | 
+Indexes:
+    "configuration_pkey" PRIMARY KEY, btree (id)
+Triggers:
+    update_configuration_updated_at BEFORE UPDATE ON configuration FOR EACH ROW EXECUTE FUNCTION update_updated_at_column()
+

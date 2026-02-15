@@ -43,7 +43,7 @@ const RestaurantTiming = ({
   stepperProps,
 }: IRestaurantsRestaurantTimingComponentProps) => {
   const { onStepChange } = stepperProps ?? {
-    onStepChange: () => {},
+    onStepChange: () => { },
   };
 
   // Hooks
@@ -90,25 +90,23 @@ const RestaurantTiming = ({
 
   // Form Submission
   const handleSubmit = (values: ITimingForm[]) => {
-    //conversion from 'HH:MM' to ["HH","MM"]
-    const formattedData = [...values]?.map((v) => {
-      const tempTime = [...v.times];
-      const formattedTime = tempTime?.map((time) => {
-        return {
-          startTime: time.startTime?.split(':'),
-          endTime: time.endTime?.split(':'),
-        };
-      });
+    // conversion for the new Action format
+    const formattedData = values.map((v) => {
+      const timeSlot = v.times[0];
       return {
-        ...v,
-        times: formattedTime,
+        day: v.day,
+        startTime: timeSlot ? `${timeSlot.startTime}` : '00:00',
+        endTime: timeSlot ? `${timeSlot.endTime}` : '23:59',
+        isClosed: v.times.length === 0,
       };
     });
 
     mutate({
       variables: {
-        id: restaurantId,
-        openingTimes: formattedData,
+        restaurantInput: {
+          _id: restaurantId,
+          openingTimes: formattedData,
+        },
       },
       onCompleted: () => {
         showToast({
@@ -143,7 +141,7 @@ const RestaurantTiming = ({
     <div className="flex flex-col gap-2 rounded dark:text-white dark:bg-dark-950">
       <div className="mb-2 flex flex-col">
         <span className="text-lg">{t('Store Timing')}</span>
-      </div> 
+      </div>
       <Formik
         initialValues={initialValues}
         validationSchema={TimingSchema}
@@ -163,11 +161,11 @@ const RestaurantTiming = ({
                           value?.times?.length > 0
                             ? []
                             : [
-                                {
-                                  startTime: '00:00',
-                                  endTime: '23:59',
-                                },
-                              ];
+                              {
+                                startTime: '00:00',
+                                endTime: '23:59',
+                              },
+                            ];
                         setFieldValue(`${dayIndex}.times`, newTimes);
                       }}
                       checked={value?.times?.length > 0}
@@ -202,11 +200,11 @@ const RestaurantTiming = ({
                                     borderColor:
                                       (
                                         errors?.[dayIndex]?.times?.[
-                                          timeIndex
+                                        timeIndex
                                         ] as FormikErrors<ITimeSlot>
                                       )?.startTime &&
-                                      touched?.[dayIndex]?.times?.[timeIndex]
-                                        ?.startTime
+                                        touched?.[dayIndex]?.times?.[timeIndex]
+                                          ?.startTime
                                         ? 'red'
                                         : '',
                                   }}
@@ -241,11 +239,11 @@ const RestaurantTiming = ({
                                     borderColor:
                                       (
                                         errors?.[dayIndex]?.times?.[
-                                          timeIndex
+                                        timeIndex
                                         ] as FormikErrors<ITimeSlot>
                                       )?.endTime &&
-                                      touched?.[dayIndex]?.times?.[timeIndex]
-                                        ?.endTime
+                                        touched?.[dayIndex]?.times?.[timeIndex]
+                                          ?.endTime
                                         ? 'red'
                                         : '',
                                   }}

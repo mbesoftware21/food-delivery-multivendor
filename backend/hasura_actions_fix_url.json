@@ -1,0 +1,63 @@
+{
+    "type": "bulk",
+    "args": [
+        {
+            "type": "update_action",
+            "args": {
+                "name": "createStore",
+                "definition": {
+                    "arguments": [
+                        {
+                            "name": "restaurant",
+                            "type": "RestaurantInputCustom!"
+                        },
+                        {
+                            "name": "owner",
+                            "type": "String!"
+                        }
+                    ],
+                    "handler": "http://172.17.0.1:8000/createStore",
+                    "kind": "synchronous",
+                    "output_type": "CreateStoreResponse",
+                    "type": "mutation"
+                }
+            }
+        },
+        {
+            "type": "update_action",
+            "args": {
+                "name": "editStore",
+                "definition": {
+                    "arguments": [
+                        {
+                            "name": "restaurant",
+                            "type": "RestaurantInputCustom!"
+                        }
+                    ],
+                    "handler": "http://172.17.0.1:8000/editStore",
+                    "kind": "synchronous",
+                    "output_type": "SuccessResponse",
+                    "type": "mutation"
+                }
+            }
+        },
+        {
+            "type": "update_action",
+            "args": {
+                "name": "deleteStore",
+                "definition": {
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "String!"
+                        }
+                    ],
+                    "handler": "http://172.17.0.1:8000/deleteStore",
+                    "kind": "synchronous",
+                    "output_type": "SuccessResponse",
+                    "type": "mutation"
+                }
+            }
+        }
+    ]
+}

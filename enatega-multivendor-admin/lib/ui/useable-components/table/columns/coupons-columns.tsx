@@ -55,7 +55,7 @@ export const COUPONS_TABLE_COLUMNS = ({
         message:
           err.message ||
           err?.cause?.message ||
-          t('Something went wrong, please try again'),
+          t('Something_went_wrong_comma'),
         duration: 2500,
       });
       setEditCouponLoading({

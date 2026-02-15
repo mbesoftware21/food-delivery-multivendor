@@ -1,0 +1,177 @@
+{
+    "type": "bulk",
+    "args": [
+        {
+            "type": "set_custom_types",
+            "args": {
+                "input_objects": [],
+                "objects": [
+                    {
+                        "name": "TimingSlot",
+                        "fields": [
+                            {
+                                "name": "startTime",
+                                "type": "[String!]!"
+                            },
+                            {
+                                "name": "endTime",
+                                "type": "[String!]!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Timing",
+                        "fields": [
+                            {
+                                "name": "day",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "times",
+                                "type": "[TimingSlot!]!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "DeliveryInfo",
+                        "fields": [
+                            {
+                                "name": "minDeliveryFee",
+                                "type": "Float!"
+                            },
+                            {
+                                "name": "deliveryDistance",
+                                "type": "Float!"
+                            },
+                            {
+                                "name": "deliveryFee",
+                                "type": "Float!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Location",
+                        "fields": [
+                            {
+                                "name": "coordinates",
+                                "type": "jsonb"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Restaurant",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "unique_restaurant_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "orderId",
+                                "type": "String"
+                            },
+                            {
+                                "name": "orderPrefix",
+                                "type": "String"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "slug",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "image",
+                                "type": "String"
+                            },
+                            {
+                                "name": "address",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "isActive",
+                                "type": "Boolean!"
+                            },
+                            {
+                                "name": "deliveryTime",
+                                "type": "Int!"
+                            },
+                            {
+                                "name": "minimumOrder",
+                                "type": "Float!"
+                            },
+                            {
+                                "name": "username",
+                                "type": "String"
+                            },
+                            {
+                                "name": "password",
+                                "type": "String"
+                            },
+                            {
+                                "name": "shopType",
+                                "type": "String"
+                            },
+                            {
+                                "name": "location",
+                                "type": "Location"
+                            },
+                            {
+                                "name": "deliveryInfo",
+                                "type": "DeliveryInfo"
+                            },
+                            {
+                                "name": "openingTimes",
+                                "type": "[Timing!]!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "RestaurantByOwnerResponse",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "email",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "userType",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "restaurants",
+                                "type": "[Restaurant!]!"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "create_action",
+            "args": {
+                "name": "restaurantByOwner",
+                "definition": {
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "String"
+                        }
+                    ],
+                    "handler": "http://fastapi-service:8000/restaurantByOwner",
+                    "kind": "synchronous",
+                    "output_type": "RestaurantByOwnerResponse",
+                    "type": "query"
+                }
+            }
+        }
+    ]
+}

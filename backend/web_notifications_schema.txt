@@ -1,0 +1,12 @@
+                                   Table "public.web_notifications"
+   Column    |           Type           | Collation | Nullable |                Default                
+-------------+--------------------------+-----------+----------+---------------------------------------
+ id          | uuid                     |           | not null | uuid_generate_v4()
+ body        | text                     |           |          | 
+ navigate_to | text                     |           |          | 
+ read        | boolean                  |           |          | false
+ created_at  | timestamp with time zone |           |          | now()
+ _id         | text                     |           |          | generated always as (id::text) stored
+Indexes:
+    "web_notifications_pkey" PRIMARY KEY, btree (id)
+

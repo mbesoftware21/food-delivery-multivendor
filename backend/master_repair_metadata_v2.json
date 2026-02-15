@@ -1,0 +1,567 @@
+{
+    "type": "bulk",
+    "args": [
+        {
+            "type": "set_custom_types",
+            "args": {
+                "input_objects": [
+                    {
+                        "name": "VendorInput",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "email",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "password",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "image",
+                                "type": "String"
+                            },
+                            {
+                                "name": "firstName",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "lastName",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "phoneNumber",
+                                "type": "String!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "OpeningTimeInput",
+                        "fields": [
+                            {
+                                "name": "day",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "startTime",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "endTime",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "isClosed",
+                                "type": "Boolean"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "RestaurantInputCustom",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "address",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "image",
+                                "type": "String"
+                            },
+                            {
+                                "name": "logo",
+                                "type": "String"
+                            },
+                            {
+                                "name": "phone",
+                                "type": "String"
+                            },
+                            {
+                                "name": "deliveryTime",
+                                "type": "Int"
+                            },
+                            {
+                                "name": "minimumOrder",
+                                "type": "Float"
+                            },
+                            {
+                                "name": "tax",
+                                "type": "Float"
+                            },
+                            {
+                                "name": "slug",
+                                "type": "String"
+                            },
+                            {
+                                "name": "username",
+                                "type": "String"
+                            },
+                            {
+                                "name": "password",
+                                "type": "String"
+                            },
+                            {
+                                "name": "shopType",
+                                "type": "String"
+                            },
+                            {
+                                "name": "cuisines",
+                                "type": "[String!]"
+                            },
+                            {
+                                "name": "openingTimes",
+                                "type": "[OpeningTimeInput!]"
+                            }
+                        ]
+                    }
+                ],
+                "objects": [
+                    {
+                        "name": "UploadImageResponse",
+                        "fields": [
+                            {
+                                "name": "imageUrl",
+                                "type": "String!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "VendorResponse",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "email",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "password",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "phoneNumber",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "userType",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "image",
+                                "type": "String"
+                            },
+                            {
+                                "name": "firstName",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "lastName",
+                                "type": "String!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "CreateStoreResponse",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "slug",
+                                "type": "String"
+                            },
+                            {
+                                "name": "username",
+                                "type": "String"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "SuccessResponse",
+                        "fields": [
+                            {
+                                "name": "success",
+                                "type": "Boolean!"
+                            },
+                            {
+                                "name": "message",
+                                "type": "String"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "TimingSlot",
+                        "fields": [
+                            {
+                                "name": "startTime",
+                                "type": "[String!]!"
+                            },
+                            {
+                                "name": "endTime",
+                                "type": "[String!]!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Timing",
+                        "fields": [
+                            {
+                                "name": "day",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "times",
+                                "type": "[TimingSlot!]!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "DeliveryInfo",
+                        "fields": [
+                            {
+                                "name": "minDeliveryFee",
+                                "type": "Float!"
+                            },
+                            {
+                                "name": "deliveryDistance",
+                                "type": "Float!"
+                            },
+                            {
+                                "name": "deliveryFee",
+                                "type": "Float!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Location",
+                        "fields": [
+                            {
+                                "name": "coordinates",
+                                "type": "jsonb"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Restaurant",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "unique_restaurant_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "orderId",
+                                "type": "String"
+                            },
+                            {
+                                "name": "orderPrefix",
+                                "type": "String"
+                            },
+                            {
+                                "name": "name",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "slug",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "image",
+                                "type": "String"
+                            },
+                            {
+                                "name": "address",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "isActive",
+                                "type": "Boolean!"
+                            },
+                            {
+                                "name": "deliveryTime",
+                                "type": "Int!"
+                            },
+                            {
+                                "name": "minimumOrder",
+                                "type": "Float!"
+                            },
+                            {
+                                "name": "username",
+                                "type": "String"
+                            },
+                            {
+                                "name": "password",
+                                "type": "String"
+                            },
+                            {
+                                "name": "shopType",
+                                "type": "String"
+                            },
+                            {
+                                "name": "location",
+                                "type": "Location"
+                            },
+                            {
+                                "name": "deliveryInfo",
+                                "type": "DeliveryInfo"
+                            },
+                            {
+                                "name": "openingTimes",
+                                "type": "[Timing!]!"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "RestaurantByOwnerResponse",
+                        "fields": [
+                            {
+                                "name": "_id",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "email",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "userType",
+                                "type": "String!"
+                            },
+                            {
+                                "name": "restaurants",
+                                "type": "[Restaurant!]!"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "type": "create_action",
+            "args": {
+                "name": "restaurantByOwner",
+                "definition": {
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "String"
+                        }
+                    ],
+                    "handler": "http://fastapi-service:8000/restaurantByOwner",
+                    "kind": "synchronous",
+                    "output_type": "RestaurantByOwnerResponse",
+                    "type": "query"
+                }
+            }
+        },
+        {
+            "type": "pg_set_table_customization",
+            "args": {
+                "source": "default",
+                "table": {
+                    "schema": "public",
+                    "name": "configuration"
+                },
+                "configuration": {
+                    "column_config": {
+                        "android_client_id": {
+                            "custom_name": "androidClientID"
+                        },
+                        "api_sentry_url": {
+                            "custom_name": "apiSentryUrl"
+                        },
+                        "app_id": {
+                            "custom_name": "appId"
+                        },
+                        "auth_domain": {
+                            "custom_name": "authDomain"
+                        },
+                        "client_id": {
+                            "custom_name": "clientId"
+                        },
+                        "client_secret": {
+                            "custom_name": "clientSecret"
+                        },
+                        "cloudinary_api_key": {
+                            "custom_name": "cloudinaryApiKey"
+                        },
+                        "cloudinary_upload_url": {
+                            "custom_name": "cloudinaryUploadUrl"
+                        },
+                        "cost_type": {
+                            "custom_name": "costType"
+                        },
+                        "currency_symbol": {
+                            "custom_name": "currencySymbol"
+                        },
+                        "customer_app_sentry_url": {
+                            "custom_name": "customerAppSentryUrl"
+                        },
+                        "dashboard_sentry_url": {
+                            "custom_name": "dashboardSentryUrl"
+                        },
+                        "delivery_rate": {
+                            "custom_name": "deliveryRate"
+                        },
+                        "email_name": {
+                            "custom_name": "emailName"
+                        },
+                        "enable_email": {
+                            "custom_name": "enableEmail"
+                        },
+                        "expo_client_id": {
+                            "custom_name": "expoClientID"
+                        },
+                        "firebase_key": {
+                            "custom_name": "firebaseKey"
+                        },
+                        "form_email": {
+                            "custom_name": "formEmail"
+                        },
+                        "google_color": {
+                            "custom_name": "googleColor"
+                        },
+                        "google_maps_key": {
+                            "custom_name": "googleApiKey"
+                        },
+                        "google_maps_libraries": {
+                            "custom_name": "googleMapLibraries"
+                        },
+                        "ios_client_id": {
+                            "custom_name": "iOSClientID"
+                        },
+                        "is_paid_version": {
+                            "custom_name": "isPaidVersion"
+                        },
+                        "measurement_id": {
+                            "custom_name": "measurementId"
+                        },
+                        "msg_sender_id": {
+                            "custom_name": "msgSenderId"
+                        },
+                        "privacy_policy": {
+                            "custom_name": "privacyPolicy"
+                        },
+                        "project_id": {
+                            "custom_name": "projectId"
+                        },
+                        "restaurant_app_sentry_url": {
+                            "custom_name": "restaurantAppSentryUrl"
+                        },
+                        "rider_app_sentry_url": {
+                            "custom_name": "riderAppSentryUrl"
+                        },
+                        "sendgrid_api_key": {
+                            "custom_name": "sendGridApiKey"
+                        },
+                        "sendgrid_email": {
+                            "custom_name": "sendGridEmail"
+                        },
+                        "sendgrid_email_name": {
+                            "custom_name": "sendGridEmailName"
+                        },
+                        "sendgrid_enabled": {
+                            "custom_name": "sendGridEnabled"
+                        },
+                        "sendgrid_password": {
+                            "custom_name": "sendGridPassword"
+                        },
+                        "skip_email_verification": {
+                            "custom_name": "skipEmailVerification"
+                        },
+                        "skip_mobile_verification": {
+                            "custom_name": "skipMobileVerification"
+                        },
+                        "skip_whatsapp_otp": {
+                            "custom_name": "skipWhatsAppOTP"
+                        },
+                        "storage_bucket": {
+                            "custom_name": "storageBucket"
+                        },
+                        "stripe_publishable_key": {
+                            "custom_name": "publishableKey"
+                        },
+                        "stripe_secret_key": {
+                            "custom_name": "secretKey"
+                        },
+                        "terms_and_conditions": {
+                            "custom_name": "termsAndConditions"
+                        },
+                        "test_otp": {
+                            "custom_name": "testOtp"
+                        },
+                        "twilio_account_sid": {
+                            "custom_name": "twilioAccountSid"
+                        },
+                        "twilio_auth_token": {
+                            "custom_name": "twilioAuthToken"
+                        },
+                        "twilio_phone_number": {
+                            "custom_name": "twilioPhoneNumber"
+                        },
+                        "twilio_whatsapp_number": {
+                            "custom_name": "twilioWhatsAppNumber"
+                        },
+                        "vapid_key": {
+                            "custom_name": "vapidKey"
+                        },
+                        "web_client_id": {
+                            "custom_name": "webClientID"
+                        },
+                        "web_sentry_url": {
+                            "custom_name": "webSentryUrl"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "type": "pg_set_table_customization",
+            "args": {
+                "source": "default",
+                "table": {
+                    "schema": "public",
+                    "name": "web_notifications"
+                },
+                "configuration": {
+                    "custom_root_fields": {
+                        "select": "webNotifications",
+                        "select_by_pk": "webNotificationByPk"
+                    },
+                    "column_config": {
+                        "navigate_to": {
+                            "custom_name": "navigateTo"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
