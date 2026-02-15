@@ -715,6 +715,94 @@ def restaurant_by_owner(req: dict):
     finally:
         db_pool.putconn(conn)
 
+@app.post("/restaurantsPaginated")
+def restaurants_paginated(req: dict):
+    """
+    Hasura Action for restaurantsPaginated.
+    Expects { "input": { "page": 1, "limit": 10, "search": "" } }
+    """
+    params = req.get("input", {})
+    page = params.get("page", 1)
+    limit = params.get("limit", 10)
+    search = params.get("search", "")
+    
+    offset = (page - 1) * limit
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            # Get total count
+            count_query = "SELECT COUNT(*) FROM restaurants r"
+            count_params = []
+            if search:
+                count_query += " WHERE r.name ILIKE %s OR r.address ILIKE %s"
+                count_params = [f"%{search}%", f"%{search}%"]
+            
+            cur.execute(count_query, count_params)
+            total_count = cur.fetchone()[0]
+            
+            total_pages = (total_count + limit - 1) // limit if limit > 0 else 1
+            
+            # Get restaurants
+            fetch_query = """
+                SELECT 
+                    r.id, r._id, r.name, r.image, r.slug, r.address, 
+                    r.delivery_time, r.minimum_order, r.is_active,
+                    rs.commission_rate, rs.tax,
+                    u._id as owner_uuid, u.email as owner_email, u.is_active as owner_active
+                FROM restaurants r
+                LEFT JOIN restaurant_settings rs ON r.id = rs.restaurant_id
+                LEFT JOIN users u ON r.owner_id = u.id
+            """
+            fetch_params = []
+            if search:
+                fetch_query += " WHERE r.name ILIKE %s OR r.address ILIKE %s"
+                fetch_params = [f"%{search}%", f"%{search}%", limit, offset]
+            else:
+                fetch_params = [limit, offset]
+                
+            fetch_query += " ORDER BY r.created_at DESC LIMIT %s OFFSET %s"
+            
+            cur.execute(fetch_query, fetch_params)
+            rows = cur.fetchall()
+            
+            restaurants = []
+            for row in rows:
+                restaurants.append({
+                    "unique_restaurant_id": str(row[0]),
+                    "_id": row[1],
+                    "name": row[2],
+                    "image": row[3],
+                    "orderPrefix": "ORD", # Default value
+                    "slug": row[4],
+                    "address": row[5],
+                    "deliveryTime": row[6],
+                    "minimumOrder": float(row[7]) if row[7] else 0.0,
+                    "isActive": row[8],
+                    "commissionRate": float(row[9]) if row[9] else 0.0,
+                    "username": "", # Default value
+                    "tax": float(row[10]) if row[10] else 0.0,
+                    "owner": {
+                        "_id": row[11],
+                        "email": row[12],
+                        "isActive": row[13]
+                    },
+                    "shopType": "RESTAURANT" # Default value
+                })
+            
+            return {
+                "data": restaurants,
+                "totalCount": total_count,
+                "currentPage": page,
+                "totalPages": total_pages
+            }
+            
+    except Exception as e:
+        print(f"Error in restaurantsPaginated: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
