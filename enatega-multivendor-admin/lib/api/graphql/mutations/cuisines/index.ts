@@ -3,22 +3,22 @@ import { gql } from '@apollo/client';
 export const CREATE_CUISINE = gql`
   mutation CreateCuisine($cuisineInput: CuisineInput!) {
     createCuisine(cuisineInput: $cuisineInput) {
-      _id
-      name
+      _id: id
+      title
       description
       image
-      shopType
+      shop_type_id
     }
   }
 `;
 export const EDIT_CUISINE = gql`
   mutation editCuisine($cuisineInput: CuisineInput!) {
     editCuisine(cuisineInput: $cuisineInput) {
-      _id
-      name
+      _id: id
+      title
       description
       image
-      shopType
+      shop_type_id
     }
   }
 `;

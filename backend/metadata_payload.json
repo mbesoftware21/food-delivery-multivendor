@@ -1,0 +1,2253 @@
+{
+  "type": "replace_metadata",
+  "version": 2,
+  "args": {
+    "metadata": {
+      "version": 3,
+      "sources": [
+        {
+          "name": "default",
+          "kind": "postgres",
+          "tables": [
+            {
+              "table": {
+                "name": "addons",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "restaurant",
+                  "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                  }
+                }
+              ],
+              "array_relationships": [
+                {
+                  "name": "food_addons",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "addon_id",
+                      "table": {
+                        "name": "food_addons",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "order_addons",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "addon_id",
+                      "table": {
+                        "name": "order_addons",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "categories",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "restaurant",
+                  "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                  }
+                }
+              ],
+              "array_relationships": [
+                {
+                  "name": "food_items",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "category_id",
+                      "table": {
+                        "name": "food_items",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "chart_data_point_table",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "configuration",
+                "schema": "public"
+              },
+              "configuration": {
+                "column_config": {
+                  "android_client_id": {
+                    "custom_name": "androidClientID"
+                  },
+                  "api_sentry_url": {
+                    "custom_name": "apiSentryUrl"
+                  },
+                  "app_id": {
+                    "custom_name": "appId"
+                  },
+                  "auth_domain": {
+                    "custom_name": "authDomain"
+                  },
+                  "client_id": {
+                    "custom_name": "clientId"
+                  },
+                  "client_secret": {
+                    "custom_name": "clientSecret"
+                  },
+                  "cloudinary_api_key": {
+                    "custom_name": "cloudinaryApiKey"
+                  },
+                  "cloudinary_upload_url": {
+                    "custom_name": "cloudinaryUploadUrl"
+                  },
+                  "cost_type": {
+                    "custom_name": "costType"
+                  },
+                  "currency_symbol": {
+                    "custom_name": "currencySymbol"
+                  },
+                  "customer_app_sentry_url": {
+                    "custom_name": "customerAppSentryUrl"
+                  },
+                  "dashboard_sentry_url": {
+                    "custom_name": "dashboardSentryUrl"
+                  },
+                  "delivery_rate": {
+                    "custom_name": "deliveryRate"
+                  },
+                  "email_name": {
+                    "custom_name": "emailName"
+                  },
+                  "enable_email": {
+                    "custom_name": "enableEmail"
+                  },
+                  "expo_client_id": {
+                    "custom_name": "expoClientID"
+                  },
+                  "firebase_key": {
+                    "custom_name": "firebaseKey"
+                  },
+                  "form_email": {
+                    "custom_name": "formEmail"
+                  },
+                  "google_color": {
+                    "custom_name": "googleColor"
+                  },
+                  "google_maps_key": {
+                    "custom_name": "googleApiKey"
+                  },
+                  "google_maps_libraries": {
+                    "custom_name": "googleMapLibraries"
+                  },
+                  "ios_client_id": {
+                    "custom_name": "iOSClientID"
+                  },
+                  "is_paid_version": {
+                    "custom_name": "isPaidVersion"
+                  },
+                  "measurement_id": {
+                    "custom_name": "measurementId"
+                  },
+                  "msg_sender_id": {
+                    "custom_name": "msgSenderId"
+                  },
+                  "privacy_policy": {
+                    "custom_name": "privacyPolicy"
+                  },
+                  "project_id": {
+                    "custom_name": "projectId"
+                  },
+                  "restaurant_app_sentry_url": {
+                    "custom_name": "restaurantAppSentryUrl"
+                  },
+                  "rider_app_sentry_url": {
+                    "custom_name": "riderAppSentryUrl"
+                  },
+                  "sendgrid_api_key": {
+                    "custom_name": "sendGridApiKey"
+                  },
+                  "sendgrid_email": {
+                    "custom_name": "sendGridEmail"
+                  },
+                  "sendgrid_email_name": {
+                    "custom_name": "sendGridEmailName"
+                  },
+                  "sendgrid_enabled": {
+                    "custom_name": "sendGridEnabled"
+                  },
+                  "sendgrid_password": {
+                    "custom_name": "sendGridPassword"
+                  },
+                  "skip_email_verification": {
+                    "custom_name": "skipEmailVerification"
+                  },
+                  "skip_mobile_verification": {
+                    "custom_name": "skipMobileVerification"
+                  },
+                  "skip_whatsapp_otp": {
+                    "custom_name": "skipWhatsAppOTP"
+                  },
+                  "storage_bucket": {
+                    "custom_name": "storageBucket"
+                  },
+                  "stripe_publishable_key": {
+                    "custom_name": "publishableKey"
+                  },
+                  "stripe_secret_key": {
+                    "custom_name": "secretKey"
+                  },
+                  "terms_and_conditions": {
+                    "custom_name": "termsAndConditions"
+                  },
+                  "test_otp": {
+                    "custom_name": "testOtp"
+                  },
+                  "twilio_whatsapp_number": {
+                    "custom_name": "twilioWhatsAppNumber"
+                  },
+                  "vapid_key": {
+                    "custom_name": "vapidKey"
+                  },
+                  "web_client_id": {
+                    "custom_name": "webClientID"
+                  },
+                  "web_sentry_url": {
+                    "custom_name": "webSentryUrl"
+                  }
+                },
+                "custom_column_names": {
+                  "android_client_id": "androidClientID",
+                  "api_sentry_url": "apiSentryUrl",
+                  "app_id": "appId",
+                  "auth_domain": "authDomain",
+                  "client_id": "clientId",
+                  "client_secret": "clientSecret",
+                  "cloudinary_api_key": "cloudinaryApiKey",
+                  "cloudinary_upload_url": "cloudinaryUploadUrl",
+                  "cost_type": "costType",
+                  "currency_symbol": "currencySymbol",
+                  "customer_app_sentry_url": "customerAppSentryUrl",
+                  "dashboard_sentry_url": "dashboardSentryUrl",
+                  "delivery_rate": "deliveryRate",
+                  "email_name": "emailName",
+                  "enable_email": "enableEmail",
+                  "expo_client_id": "expoClientID",
+                  "firebase_key": "firebaseKey",
+                  "form_email": "formEmail",
+                  "google_color": "googleColor",
+                  "google_maps_key": "googleApiKey",
+                  "google_maps_libraries": "googleMapLibraries",
+                  "ios_client_id": "iOSClientID",
+                  "is_paid_version": "isPaidVersion",
+                  "measurement_id": "measurementId",
+                  "msg_sender_id": "msgSenderId",
+                  "privacy_policy": "privacyPolicy",
+                  "project_id": "projectId",
+                  "restaurant_app_sentry_url": "restaurantAppSentryUrl",
+                  "rider_app_sentry_url": "riderAppSentryUrl",
+                  "sendgrid_api_key": "sendGridApiKey",
+                  "sendgrid_email": "sendGridEmail",
+                  "sendgrid_email_name": "sendGridEmailName",
+                  "sendgrid_enabled": "sendGridEnabled",
+                  "sendgrid_password": "sendGridPassword",
+                  "skip_email_verification": "skipEmailVerification",
+                  "skip_mobile_verification": "skipMobileVerification",
+                  "skip_whatsapp_otp": "skipWhatsAppOTP",
+                  "storage_bucket": "storageBucket",
+                  "stripe_publishable_key": "publishableKey",
+                  "stripe_secret_key": "secretKey",
+                  "terms_and_conditions": "termsAndConditions",
+                  "test_otp": "testOtp",
+                  "twilio_whatsapp_number": "twilioWhatsAppNumber",
+                  "vapid_key": "vapidKey",
+                  "web_client_id": "webClientID",
+                  "web_sentry_url": "webSentryUrl"
+                },
+                "custom_root_fields": {}
+              }
+            },
+            {
+              "table": {
+                "name": "dashboard_users_stats_table",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "dashboard_users_year_stats_table",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "food_addons",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "addon",
+                  "using": {
+                    "foreign_key_constraint_on": "addon_id"
+                  }
+                },
+                {
+                  "name": "food_item",
+                  "using": {
+                    "foreign_key_constraint_on": "food_id"
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "food_items",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "category",
+                  "using": {
+                    "foreign_key_constraint_on": "category_id"
+                  }
+                },
+                {
+                  "name": "restaurant",
+                  "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                  }
+                }
+              ],
+              "array_relationships": [
+                {
+                  "name": "food_addons",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "food_id",
+                      "table": {
+                        "name": "food_addons",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "order_items",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "food_id",
+                      "table": {
+                        "name": "order_items",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "geography_columns",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "geometry_columns",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "login_response",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "login_responses",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "notifications",
+                "schema": "public"
+              },
+              "configuration": {
+                "column_config": {},
+                "custom_column_names": {},
+                "custom_root_fields": {
+                  "select": "notifications",
+                  "select_by_pk": "notificationByPk"
+                }
+              }
+            },
+            {
+              "table": {
+                "name": "opening_times",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "restaurant",
+                  "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                  }
+                }
+              ],
+              "select_permissions": [
+                {
+                  "role": "vendor",
+                  "permission": {
+                    "columns": "*",
+                    "filter": {
+                      "restaurant": {
+                        "owner_id": {
+                          "_eq": "X-Hasura-User-Id"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "order_addons",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "addon",
+                  "using": {
+                    "foreign_key_constraint_on": "addon_id"
+                  }
+                },
+                {
+                  "name": "order_item",
+                  "using": {
+                    "foreign_key_constraint_on": "order_item_id"
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "order_items",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "food_item",
+                  "using": {
+                    "foreign_key_constraint_on": "food_id"
+                  }
+                },
+                {
+                  "name": "order",
+                  "using": {
+                    "foreign_key_constraint_on": "order_id"
+                  }
+                }
+              ],
+              "array_relationships": [
+                {
+                  "name": "order_addons",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "order_item_id",
+                      "table": {
+                        "name": "order_addons",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "order_status_history",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "order",
+                  "using": {
+                    "foreign_key_constraint_on": "order_id"
+                  }
+                },
+                {
+                  "name": "user",
+                  "using": {
+                    "foreign_key_constraint_on": "changed_by"
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "orders",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "restaurant",
+                  "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                  }
+                },
+                {
+                  "name": "rider",
+                  "using": {
+                    "foreign_key_constraint_on": "rider_id"
+                  }
+                },
+                {
+                  "name": "user",
+                  "using": {
+                    "foreign_key_constraint_on": "user_id"
+                  }
+                }
+              ],
+              "array_relationships": [
+                {
+                  "name": "items",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "order_id",
+                      "table": {
+                        "name": "order_items",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "order_items",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "order_id",
+                      "table": {
+                        "name": "order_items",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "order_status_histories",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "order_id",
+                      "table": {
+                        "name": "order_status_history",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "payments",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "order_id",
+                      "table": {
+                        "name": "payments",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "payments",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "order",
+                  "using": {
+                    "foreign_key_constraint_on": "order_id"
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "restaurant_settings",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "restaurant",
+                  "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                  }
+                }
+              ],
+              "select_permissions": [
+                {
+                  "role": "vendor",
+                  "permission": {
+                    "columns": "*",
+                    "filter": {
+                      "restaurant": {
+                        "owner_id": {
+                          "_eq": "X-Hasura-User-Id"
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "update_permissions": [
+                {
+                  "role": "vendor",
+                  "permission": {
+                    "columns": [
+                      "minimum_order",
+                      "tax",
+                      "commission_rate",
+                      "is_delivery_enabled",
+                      "is_pickup_enabled"
+                    ],
+                    "filter": {
+                      "restaurant": {
+                        "owner_id": {
+                          "_eq": "X-Hasura-User-Id"
+                        }
+                      }
+                    },
+                    "check": null
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "restaurant_zones",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "restaurant",
+                  "using": {
+                    "foreign_key_constraint_on": "restaurant_id"
+                  }
+                },
+                {
+                  "name": "zone",
+                  "using": {
+                    "foreign_key_constraint_on": "zone_id"
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "restaurants",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "user",
+                  "using": {
+                    "foreign_key_constraint_on": "owner_id"
+                  }
+                }
+              ],
+              "array_relationships": [
+                {
+                  "name": "addons",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "restaurant_id",
+                      "table": {
+                        "name": "addons",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "categories",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "restaurant_id",
+                      "table": {
+                        "name": "categories",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "food_items",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "restaurant_id",
+                      "table": {
+                        "name": "food_items",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "opening_times",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "restaurant_id",
+                      "table": {
+                        "name": "opening_times",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "orders",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "restaurant_id",
+                      "table": {
+                        "name": "orders",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "restaurant_zones",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "restaurant_id",
+                      "table": {
+                        "name": "restaurant_zones",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "settings",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "restaurant_id",
+                      "table": {
+                        "name": "restaurant_settings",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ],
+              "select_permissions": [
+                {
+                  "role": "vendor",
+                  "permission": {
+                    "columns": "*",
+                    "filter": {
+                      "owner_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              ],
+              "update_permissions": [
+                {
+                  "role": "vendor",
+                  "permission": {
+                    "columns": [
+                      "name",
+                      "address",
+                      "image",
+                      "logo",
+                      "phone",
+                      "delivery_time",
+                      "is_available",
+                      "slug"
+                    ],
+                    "filter": {
+                      "owner_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    },
+                    "check": null
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "restaurants_paginated_response",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "riders",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "user",
+                  "using": {
+                    "foreign_key_constraint_on": "user_id"
+                  }
+                },
+                {
+                  "name": "zone",
+                  "using": {
+                    "manual_configuration": {
+                      "column_mapping": {
+                        "zone_id": "id"
+                      },
+                      "insertion_order": null,
+                      "remote_table": {
+                        "name": "zones",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ],
+              "array_relationships": [
+                {
+                  "name": "orders",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "rider_id",
+                      "table": {
+                        "name": "orders",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "riders_data",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "user",
+                  "using": {
+                    "foreign_key_constraint_on": "user_id"
+                  }
+                },
+                {
+                  "name": "zone",
+                  "using": {
+                    "foreign_key_constraint_on": "zone_id"
+                  }
+                }
+              ],
+              "array_relationships": [
+                {
+                  "name": "orders",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "rider_id",
+                      "table": {
+                        "name": "orders",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "spatial_ref_sys",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "users",
+                "schema": "public"
+              },
+              "array_relationships": [
+                {
+                  "name": "order_status_histories",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "changed_by",
+                      "table": {
+                        "name": "order_status_history",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "orders",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "user_id",
+                      "table": {
+                        "name": "orders",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "restaurants",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "owner_id",
+                      "table": {
+                        "name": "restaurants",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "riders",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "user_id",
+                      "table": {
+                        "name": "riders",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "riders_data",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "user_id",
+                      "table": {
+                        "name": "riders_data",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "vendors",
+                "schema": "public"
+              },
+              "array_relationships": [
+                {
+                  "name": "restaurants",
+                  "using": {
+                    "manual_configuration": {
+                      "column_mapping": {
+                        "id": "owner_id"
+                      },
+                      "insertion_order": null,
+                      "remote_table": {
+                        "name": "restaurants",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "web_notifications",
+                "schema": "public"
+              },
+              "configuration": {
+                "column_config": {},
+                "custom_column_names": {},
+                "custom_root_fields": {
+                  "select": "webNotifications",
+                  "select_by_pk": "webNotificationByPk"
+                }
+              }
+            },
+            {
+              "table": {
+                "name": "zones",
+                "schema": "public"
+              },
+              "array_relationships": [
+                {
+                  "name": "restaurant_zones",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "zone_id",
+                      "table": {
+                        "name": "restaurant_zones",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "riders",
+                  "using": {
+                    "manual_configuration": {
+                      "column_mapping": {
+                        "id": "zone_id"
+                      },
+                      "insertion_order": null,
+                      "remote_table": {
+                        "name": "riders",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                },
+                {
+                  "name": "riders_data",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "zone_id",
+                      "table": {
+                        "name": "riders_data",
+                        "schema": "public"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "addr",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "addrfeat",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "bg",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "county",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "county_lookup",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "countysub_lookup",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "cousub",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "direction_lookup",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "edges",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "faces",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "featnames",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "geocode_settings",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "geocode_settings_default",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "loader_lookuptables",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "loader_platform",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "loader_variables",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "pagc_gaz",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "pagc_lex",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "pagc_rules",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "place",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "place_lookup",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "secondary_unit_lookup",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "state",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "state_lookup",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "street_type_lookup",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "tabblock",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "tabblock20",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "tract",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "zcta5",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "zip_lookup",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "zip_lookup_all",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "zip_lookup_base",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "zip_state",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "zip_state_loc",
+                "schema": "tiger"
+              }
+            },
+            {
+              "table": {
+                "name": "layer",
+                "schema": "topology"
+              },
+              "object_relationships": [
+                {
+                  "name": "topology",
+                  "using": {
+                    "foreign_key_constraint_on": "topology_id"
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "topology",
+                "schema": "topology"
+              },
+              "array_relationships": [
+                {
+                  "name": "layers",
+                  "using": {
+                    "foreign_key_constraint_on": {
+                      "column": "topology_id",
+                      "table": {
+                        "name": "layer",
+                        "schema": "topology"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "schema": "public",
+                "name": "cuisines"
+              },
+              "select_permissions": [
+                {
+                  "role": "public",
+                  "permission": {
+                    "columns": "*",
+                    "filter": {},
+                    "allow_aggregations": true
+                  }
+                }
+              ]
+            }
+          ],
+          "functions": [
+            {
+              "function": {
+                "name": "create_category",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "createCategory",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "create_food",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "createFood",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "create_restaurant",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "createRestaurant",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "delete_category",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "deleteCategory",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "delete_food",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "deleteFood",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "delete_restaurant",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "deleteRestaurant",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "edit_category",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "editCategory",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "edit_food",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "editFood",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "edit_restaurant",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "editRestaurant",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "get_dashboard_orders_by_type",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_root_fields": {
+                  "function": "getDashboardOrdersByType"
+                }
+              }
+            },
+            {
+              "function": {
+                "name": "get_dashboard_sales_by_type",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_root_fields": {
+                  "function": "getDashboardSalesByType"
+                }
+              }
+            },
+            {
+              "function": {
+                "name": "get_dashboard_users",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_root_fields": {
+                  "function": "getDashboardUsers"
+                }
+              }
+            },
+            {
+              "function": {
+                "name": "get_dashboard_users_by_year",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_root_fields": {
+                  "function": "getDashboardUsersByYear"
+                }
+              }
+            },
+            {
+              "function": {
+                "name": "owner_login",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_name": "ownerLogin",
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "place_manual_order",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_root_fields": {},
+                "exposed_as": "mutation"
+              }
+            },
+            {
+              "function": {
+                "name": "restaurants_paginated",
+                "schema": "public"
+              },
+              "configuration": {
+                "custom_root_fields": {
+                  "function": "restaurantsPaginated"
+                }
+              }
+            }
+          ],
+          "configuration": {
+            "connection_info": {
+              "database_url": {
+                "from_env": "HASURA_GRAPHQL_DATABASE_URL"
+              },
+              "isolation_level": "read-committed",
+              "pool_settings": {
+                "connection_lifetime": 600,
+                "idle_timeout": 180,
+                "max_connections": 50,
+                "retries": 1
+              },
+              "use_prepared_statements": true
+            }
+          }
+        }
+      ],
+      "actions": [
+        {
+          "name": "createStore",
+          "definition": {
+            "handler": "http://172.17.0.1:8000/createStore",
+            "output_type": "CreateStoreResponse",
+            "arguments": [
+              {
+                "name": "restaurant",
+                "type": "RestaurantInputCustom!"
+              },
+              {
+                "name": "owner",
+                "type": "String!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "createVendor",
+          "definition": {
+            "handler": "http://fastapi-service:8000/createVendor",
+            "output_type": "VendorResponse",
+            "arguments": [
+              {
+                "name": "vendorInput",
+                "type": "VendorInput!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "deleteStore",
+          "definition": {
+            "handler": "http://172.17.0.1:8000/deleteStore",
+            "output_type": "SuccessResponse",
+            "arguments": [
+              {
+                "name": "id",
+                "type": "String!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "deleteVendor",
+          "definition": {
+            "handler": "http://fastapi-service:8000/deleteVendor",
+            "output_type": "Boolean",
+            "arguments": [
+              {
+                "name": "id",
+                "type": "String!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "editStore",
+          "definition": {
+            "handler": "http://172.17.0.1:8000/editStore",
+            "output_type": "SuccessResponse",
+            "arguments": [
+              {
+                "name": "restaurant",
+                "type": "RestaurantInputCustom!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "editVendor",
+          "definition": {
+            "handler": "http://fastapi-service:8000/editVendor",
+            "output_type": "VendorResponse",
+            "arguments": [
+              {
+                "name": "vendorInput",
+                "type": "VendorInput!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "uploadImageToS3",
+          "definition": {
+            "handler": "http://fastapi-service:8000/uploadImageToS3",
+            "output_type": "UploadImageResponse",
+            "arguments": [
+              {
+                "name": "image",
+                "type": "String!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "fetchShopTypes",
+          "definition": {
+            "handler": "http://fastapi-service:8000/fetchShopTypes",
+            "output_type": "FetchShopTypesResponse",
+            "arguments": [
+              {
+                "name": "filter",
+                "type": "FetchShopTypeFilter"
+              },
+              {
+                "name": "pagination",
+                "type": "PaginationInput"
+              }
+            ],
+            "type": "query",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "createShopType",
+          "definition": {
+            "handler": "http://fastapi-service:8000/createShopType",
+            "output_type": "ShopType",
+            "arguments": [
+              {
+                "name": "dto",
+                "type": "CreateShopTypeInput!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "updateShopType",
+          "definition": {
+            "handler": "http://fastapi-service:8000/updateShopType",
+            "output_type": "ShopType",
+            "arguments": [
+              {
+                "name": "dto",
+                "type": "UpdateShopTypeInput!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "deleteShopType",
+          "definition": {
+            "handler": "http://fastapi-service:8000/deleteShopType",
+            "output_type": "ShopType",
+            "arguments": [
+              {
+                "name": "id",
+                "type": "String!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "fetchCuisines",
+          "definition": {
+            "handler": "http://fastapi-service:8000/fetchCuisines",
+            "output_type": "[Cuisine!]!",
+            "arguments": [
+              {
+                "name": "shopType",
+                "type": "String"
+              },
+              {
+                "name": "isActive",
+                "type": "Boolean"
+              }
+            ],
+            "type": "query",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "createCuisine",
+          "definition": {
+            "handler": "http://fastapi-service:8000/createCuisine",
+            "output_type": "Cuisine",
+            "arguments": [
+              {
+                "name": "cuisineInput",
+                "type": "CuisineInput!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "editCuisine",
+          "definition": {
+            "handler": "http://fastapi-service:8000/editCuisine",
+            "output_type": "Cuisine",
+            "arguments": [
+              {
+                "name": "cuisineInput",
+                "type": "CuisineInput!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "deleteCuisine",
+          "definition": {
+            "handler": "http://fastapi-service:8000/deleteCuisine",
+            "output_type": "Cuisine",
+            "arguments": [
+              {
+                "name": "id",
+                "type": "String!"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        },
+        {
+          "name": "updateDeliveryBoundsAndLocation",
+          "definition": {
+            "handler": "http://fastapi-service:8000/updateDeliveryBoundsAndLocation",
+            "output_type": "UpdateDeliveryBoundsAndLocationResponse",
+            "arguments": [
+              {
+                "name": "id",
+                "type": "ID!"
+              },
+              {
+                "name": "location",
+                "type": "CoordinatesInput!"
+              },
+              {
+                "name": "boundType",
+                "type": "String!"
+              },
+              {
+                "name": "address",
+                "type": "String"
+              },
+              {
+                "name": "bounds",
+                "type": "[[[Float!]]]"
+              },
+              {
+                "name": "circleBounds",
+                "type": "CircleBoundsInput"
+              }
+            ],
+            "type": "mutation",
+            "kind": "synchronous"
+          }
+        }
+      ],
+      "custom_types": {
+        "input_objects": [
+          {
+            "name": "VendorInput",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String"
+              },
+              {
+                "name": "name",
+                "type": "String!"
+              },
+              {
+                "name": "email",
+                "type": "String!"
+              },
+              {
+                "name": "password",
+                "type": "String!"
+              },
+              {
+                "name": "image",
+                "type": "String"
+              },
+              {
+                "name": "firstName",
+                "type": "String!"
+              },
+              {
+                "name": "lastName",
+                "type": "String!"
+              },
+              {
+                "name": "phoneNumber",
+                "type": "String!"
+              }
+            ]
+          },
+          {
+            "name": "OpeningTimeInput",
+            "fields": [
+              {
+                "name": "day",
+                "type": "String!"
+              },
+              {
+                "name": "startTime",
+                "type": "String!"
+              },
+              {
+                "name": "endTime",
+                "type": "String!"
+              },
+              {
+                "name": "isClosed",
+                "type": "Boolean"
+              }
+            ]
+          },
+          {
+            "name": "RestaurantInputCustom",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String"
+              },
+              {
+                "name": "name",
+                "type": "String"
+              },
+              {
+                "name": "address",
+                "type": "String"
+              },
+              {
+                "name": "image",
+                "type": "String"
+              },
+              {
+                "name": "logo",
+                "type": "String"
+              },
+              {
+                "name": "phone",
+                "type": "String"
+              },
+              {
+                "name": "deliveryTime",
+                "type": "Int"
+              },
+              {
+                "name": "minimumOrder",
+                "type": "Float"
+              },
+              {
+                "name": "tax",
+                "type": "Float"
+              },
+              {
+                "name": "slug",
+                "type": "String"
+              },
+              {
+                "name": "username",
+                "type": "String"
+              },
+              {
+                "name": "password",
+                "type": "String"
+              },
+              {
+                "name": "shopType",
+                "type": "String"
+              },
+              {
+                "name": "cuisines",
+                "type": "[String!]"
+              },
+              {
+                "name": "openingTimes",
+                "type": "[OpeningTimeInput!]"
+              }
+            ]
+          },
+          {
+            "name": "CreateShopTypeInput",
+            "fields": [
+              {
+                "name": "name",
+                "type": "String!"
+              },
+              {
+                "name": "description",
+                "type": "String"
+              },
+              {
+                "name": "image",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "UpdateShopTypeInput",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String!"
+              },
+              {
+                "name": "name",
+                "type": "String"
+              },
+              {
+                "name": "description",
+                "type": "String"
+              },
+              {
+                "name": "image",
+                "type": "String"
+              },
+              {
+                "name": "isActive",
+                "type": "Boolean"
+              }
+            ]
+          },
+          {
+            "name": "CuisineInput",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String"
+              },
+              {
+                "name": "name",
+                "type": "String!"
+              },
+              {
+                "name": "description",
+                "type": "String"
+              },
+              {
+                "name": "image",
+                "type": "String"
+              },
+              {
+                "name": "shopTypeId",
+                "type": "String"
+              },
+              {
+                "name": "shopType",
+                "type": "String"
+              },
+              {
+                "name": "isActive",
+                "type": "Boolean"
+              }
+            ]
+          },
+          {
+            "name": "PaginationInput",
+            "fields": [
+              {
+                "name": "page",
+                "type": "Int"
+              },
+              {
+                "name": "size",
+                "type": "Int"
+              },
+              {
+                "name": "limit",
+                "type": "Int"
+              },
+              {
+                "name": "rows",
+                "type": "Int"
+              }
+            ]
+          },
+          {
+            "name": "FetchShopTypeFilter",
+            "fields": [
+              {
+                "name": "search",
+                "type": "String"
+              },
+              {
+                "name": "isActive",
+                "type": "Boolean"
+              },
+              {
+                "name": "global",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "CoordinatesInput",
+            "fields": [
+              {
+                "name": "latitude",
+                "type": "Float!"
+              },
+              {
+                "name": "longitude",
+                "type": "Float!"
+              }
+            ]
+          },
+          {
+            "name": "CircleBoundsInput",
+            "fields": [
+              {
+                "name": "radius",
+                "type": "Float!"
+              }
+            ]
+          }
+        ],
+        "objects": [
+          {
+            "name": "UploadImageResponse",
+            "fields": [
+              {
+                "name": "imageUrl",
+                "type": "String!"
+              }
+            ]
+          },
+          {
+            "name": "VendorResponse",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String!"
+              },
+              {
+                "name": "email",
+                "type": "String!"
+              },
+              {
+                "name": "password",
+                "type": "String!"
+              },
+              {
+                "name": "name",
+                "type": "String!"
+              },
+              {
+                "name": "phoneNumber",
+                "type": "String!"
+              },
+              {
+                "name": "userType",
+                "type": "String!"
+              },
+              {
+                "name": "image",
+                "type": "String"
+              },
+              {
+                "name": "firstName",
+                "type": "String!"
+              },
+              {
+                "name": "lastName",
+                "type": "String!"
+              }
+            ]
+          },
+          {
+            "name": "CreateStoreResponse",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String!"
+              },
+              {
+                "name": "name",
+                "type": "String!"
+              },
+              {
+                "name": "slug",
+                "type": "String"
+              },
+              {
+                "name": "username",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "SuccessResponse",
+            "fields": [
+              {
+                "name": "success",
+                "type": "Boolean!"
+              },
+              {
+                "name": "message",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "ShopType",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String!"
+              },
+              {
+                "name": "name",
+                "type": "String!"
+              },
+              {
+                "name": "image",
+                "type": "String"
+              },
+              {
+                "name": "isActive",
+                "type": "Boolean!"
+              }
+            ]
+          },
+          {
+            "name": "Cuisine",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String!"
+              },
+              {
+                "name": "name",
+                "type": "String!"
+              },
+              {
+                "name": "description",
+                "type": "String"
+              },
+              {
+                "name": "image",
+                "type": "String"
+              },
+              {
+                "name": "isActive",
+                "type": "Boolean!"
+              },
+              {
+                "name": "shopTypeId",
+                "type": "String"
+              },
+              {
+                "name": "shopType",
+                "type": "String"
+              }
+            ]
+          },
+          {
+            "name": "FetchShopTypesResponse",
+            "fields": [
+              {
+                "name": "data",
+                "type": "[ShopType!]!"
+              },
+              {
+                "name": "total",
+                "type": "Int!"
+              },
+              {
+                "name": "page",
+                "type": "Int!"
+              },
+              {
+                "name": "pageSize",
+                "type": "Int!"
+              },
+              {
+                "name": "totalPages",
+                "type": "Int!"
+              },
+              {
+                "name": "hasNextPage",
+                "type": "Boolean!"
+              },
+              {
+                "name": "hasPrevPage",
+                "type": "Boolean!"
+              }
+            ]
+          },
+          {
+            "name": "LocationType",
+            "fields": [
+              {
+                "name": "coordinates",
+                "type": "[Float!]"
+              }
+            ]
+          },
+          {
+            "name": "DeliveryBoundsType",
+            "fields": [
+              {
+                "name": "coordinates",
+                "type": "[[[Float!]]]"
+              }
+            ]
+          },
+          {
+            "name": "UpdateDeliveryBoundsAndLocationData",
+            "fields": [
+              {
+                "name": "_id",
+                "type": "String"
+              },
+              {
+                "name": "location",
+                "type": "LocationType"
+              },
+              {
+                "name": "deliveryBounds",
+                "type": "DeliveryBoundsType"
+              }
+            ]
+          },
+          {
+            "name": "UpdateDeliveryBoundsAndLocationResponse",
+            "fields": [
+              {
+                "name": "success",
+                "type": "Boolean!"
+              },
+              {
+                "name": "message",
+                "type": "String"
+              },
+              {
+                "name": "data",
+                "type": "UpdateDeliveryBoundsAndLocationData"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "allow_inconsistent_metadata": true
+  }
+}

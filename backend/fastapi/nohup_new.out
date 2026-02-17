@@ -6,3 +6,7 @@ INFO:     127.0.0.1:47518 - "POST /restaurantsPaginated HTTP/1.1" 200 OK
 INFO:     192.168.20.30:59846 - "POST /restaurantsPaginated HTTP/1.1" 200 OK
 INFO:     192.168.20.30:57770 - "POST /restaurantsPaginated HTTP/1.1" 200 OK
 INFO:     192.168.20.30:47112 - "POST /restaurantsPaginated HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [37988]

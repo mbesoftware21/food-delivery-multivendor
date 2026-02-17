@@ -40,7 +40,7 @@ export const CUISINE_TABLE_COLUMNS = ({
       },
       {
         headerName: t('Name'),
-        propertyName: 'name',
+        propertyName: 'title',
       },
       {
         headerName: t('Description'),
@@ -48,7 +48,7 @@ export const CUISINE_TABLE_COLUMNS = ({
       },
       {
         headerName: t('Shop Category'),
-        propertyName: 'shopType',
+        propertyName: 'shop_type_id',
       },
       {
         headerName: t('Actions'),

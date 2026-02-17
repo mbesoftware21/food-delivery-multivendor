@@ -3,11 +3,11 @@ import { gql } from '@apollo/client';
 export const GET_CUISINES = gql`
   query Cuisines {
     cuisines {
-      _id
-      name
+      _id: id
+      title
       description
       image
-      shopType
+      shop_type_id
     }
   }
 `;

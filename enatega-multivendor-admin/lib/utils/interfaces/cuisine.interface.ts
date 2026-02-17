@@ -3,11 +3,12 @@ import { IDropdownSelectItem, IEditState } from './global.interface';
 import { IFilterType } from './table.interface';
 
 export interface ICuisine {
-  _id: string;
+  _id: string; // Aliasing id from GraphQL
+  id: string;
   description: string;
   image?: string;
-  name: string;
-  shopType: string;
+  title: string;
+  shop_type_id: string;
   __typename: string;
 }
 
@@ -15,7 +16,7 @@ export interface IGetCuisinesData {
   cuisines: ICuisine[];
 }
 
-export interface IGetCuisinesVariables {}
+export interface IGetCuisinesVariables { }
 
 export interface IAddCuisineProps {
   setVisible: Dispatch<SetStateAction<boolean>>;

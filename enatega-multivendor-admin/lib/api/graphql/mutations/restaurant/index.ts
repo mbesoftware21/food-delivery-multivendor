@@ -35,8 +35,6 @@ export const UPDATE_DELIVERY_BOUNDS_AND_LOCATION = gql`
     $circleBounds: CircleBoundsInput
     $location: CoordinatesInput!
     $address: String
-    $postCode: String
-    $city: String
   ) {
     result: updateDeliveryBoundsAndLocation(
       id: $id
@@ -45,8 +43,6 @@ export const UPDATE_DELIVERY_BOUNDS_AND_LOCATION = gql`
       bounds: $bounds
       location: $location
       address: $address
-      postCode: $postCode
-      city: $city
     ) {
       success
       message
@@ -65,95 +61,95 @@ export const UPDATE_DELIVERY_BOUNDS_AND_LOCATION = gql`
 
 export const EDIT_RESTAURANT = gql`
   mutation EditRestaurant($restaurantInput: RestaurantInputCustom!) {
-    editRestaurant: editStore(restaurant: $restaurantInput) {
-      success
-      message
-    }
+  editRestaurant: editStore(restaurant: $restaurantInput) {
+    success
+    message
   }
+}
 `;
 
 export const DUPLICATE_RESTAURANT = gql`
   mutation DuplicateRestaurant($id: String!, $owner: String!) {
-    duplicateRestaurant(id: $id, owner: $owner) {
-      _id
-      name
-      image
-      username
-      orderPrefix
-      slug
-      address
-      deliveryTime
-      minimumOrder
-      isActive
-      commissionRate
-      tax
+  duplicateRestaurant(id: $id, owner: $owner) {
+    _id
+    name
+    image
+    username
+    orderPrefix
+    slug
+    address
+    deliveryTime
+    minimumOrder
+    isActive
+    commissionRate
+    tax
       owner {
-        _id
-        email
-        isActive
-      }
-      shopType
-      orderId
-      logo
-      password
-      location {
-        coordinates
-      }
-      cuisines
+      _id
+      email
+      isActive
     }
+    shopType
+    orderId
+    logo
+    password
+      location {
+      coordinates
+    }
+    cuisines
   }
+}
 `;
 
 export const UPDATE_FOOD_OUT_OF_STOCK = gql`
   mutation UpdateFoodOutOfStock(
-    $id: String!
+  $id: String!
     $restaurant: String!
     $categoryId: String!
-  ) {
-    updateFoodOutOfStock(
-      id: $id
+) {
+  updateFoodOutOfStock(
+    id: $id
       restaurant: $restaurant
       categoryId: $categoryId
-    )
-  }
+  )
+}
 `;
 
 export const UPDATE_RESTAURANT_DELIVERY = gql`
   mutation updateRestaurantDelivery(
-    $id: ID!
+  $id: ID!
     $minDeliveryFee: Float
     $deliveryDistance: Float
     $deliveryFee: Float
-  ) {
-    updateRestaurantDelivery(
-      id: $id
+) {
+  updateRestaurantDelivery(
+    id: $id
       minDeliveryFee: $minDeliveryFee
       deliveryDistance: $deliveryDistance
       deliveryFee: $deliveryFee
-    ) {
-      success
-      message
+  ) {
+    success
+    message
       data {
-        _id
-      }
+      _id
     }
   }
+}
 `;
 
 export const UPDATE_RESTAURANT_BUSSINESS_DETAILS = gql`
   mutation updateRestaurantBussinessDetails(
-    $id: String!
+  $id: String!
     $bussinessDetails: BussinessDetailsInput
-  ) {
-    updateRestaurantBussinessDetails(
-      id: $id
+) {
+  updateRestaurantBussinessDetails(
+    id: $id
       bussinessDetails: $bussinessDetails
-    ) {
-      success
-      message
+  ) {
+    success
+    message
       data {
-        _id
-      }
+      _id
     }
   }
+}
 `;

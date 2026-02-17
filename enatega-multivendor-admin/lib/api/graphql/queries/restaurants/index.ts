@@ -72,28 +72,8 @@ export const GET_RESTAURANTS = gql`
 
 export const GET_RESTAURANTS_PAGINATED = gql`
   query restaurantsPaginated($page: Int, $limit: Int, $search: String) {
-    restaurantsPaginated(page: $page, limit: $limit, search: $search) {
-      data {
-        unique_restaurant_id
-        _id
-        name
-        image
-        orderPrefix
-        slug
-        address
-        deliveryTime
-        minimumOrder
-        isActive
-        commissionRate
-        username
-        tax
-        owner {
-          _id
-          email
-          isActive
-        }
-        shopType
-      }
+    restaurantsPaginated(args: {page: $page, limit: $limit, search: $search}) {
+      data
       totalCount
       currentPage
       totalPages

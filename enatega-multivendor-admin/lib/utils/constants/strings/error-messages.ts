@@ -169,9 +169,9 @@ export const StaffErrors: IStaffErrors = {
 };
 
 export const CuisineErrors: ICuisineErrors = {
-  name: ['Required', 'Name cannot be only spaces'],
+  title: ['Required', 'Name cannot be only spaces'],
   description: ['Required', 'Name cannot be only spaces'],
-  shopType: ['Required'],
+  shop_type_id: ['Required'],
   image: ['Required'],
 };
 

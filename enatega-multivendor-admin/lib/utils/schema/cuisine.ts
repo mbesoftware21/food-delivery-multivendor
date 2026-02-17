@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const CuisineFormSchema = Yup.object().shape({
-  name: Yup.string()
+  title: Yup.string()
     .max(30, 'you_have_reached_the_maximum_limit')
     .trim()
     .matches(/\S/, 'name_cannot_be_only_spaces')
@@ -11,7 +11,7 @@ export const CuisineFormSchema = Yup.object().shape({
     .trim()
     .matches(/\S/, 'description_cannot_be_only_spaces')
     .required('description_is_required'),
-  shopType: Yup.object({
+  shop_type_id: Yup.object({
     label: Yup.string().required('Required'),
     code: Yup.string().required('Required'),
   }).required('Please choose one'),

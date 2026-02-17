@@ -59,10 +59,11 @@ export default function CuisinesMain({
     bool: false,
     data: {
       _id: '',
+      id: '',
       __typename: '',
       description: '',
-      name: '',
-      shopType: '',
+      title: '',
+      shop_type_id: '',
       image: '',
     },
   });
@@ -73,7 +74,7 @@ export default function CuisinesMain({
   // Filters
   const filters = {
     global: { value: globalFilterValue, matchMode: FilterMatchMode.CONTAINS },
-    shopType: {
+    shop_type_id: {
       value:
         selectedActions.length === 0 || selectedActions.length === 2
           ? null // No filter when none or both are selected
@@ -97,9 +98,10 @@ export default function CuisinesMain({
             data: {
               __typename: '',
               _id: '',
+              id: '',
               description: '',
-              name: '',
-              shopType: '',
+              title: '',
+              shop_type_id: '',
               image: '',
             },
           });
@@ -119,9 +121,10 @@ export default function CuisinesMain({
             data: {
               __typename: '',
               _id: '',
+              id: '',
               description: '',
-              name: '',
-              shopType: '',
+              title: '',
+              shop_type_id: '',
               image: '',
             },
           });
@@ -133,7 +136,7 @@ export default function CuisinesMain({
   // Handlers
   async function deleteItem() {
     try {
-      await deleteCuisine({ variables: { id: isDeleting?.data?._id } });
+      await deleteCuisine({ variables: { id: isDeleting?.data?.id } });
       showToast({
         title: t('Delete Cuisine'),
         type: 'success',

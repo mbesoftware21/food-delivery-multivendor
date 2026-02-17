@@ -1,6 +1,6 @@
 export interface ICuisineErrors {
-  name: string[];
+  title: string[];
   description: string[];
-  shopType: string[];
+  shop_type_id: string[];
   image: string[];
 }

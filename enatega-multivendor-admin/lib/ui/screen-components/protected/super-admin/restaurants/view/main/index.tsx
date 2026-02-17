@@ -185,10 +185,13 @@ export default function RestaurantsMain() {
   ];
 
   // Get pagination data
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const restaurantData =
     currentTab === 'Actual'
-      ? data?.restaurantsPaginated
-      : data?.getClonedRestaurantsPaginated;
+      ? Array.isArray(data?.restaurantsPaginated)
+        ? data?.restaurantsPaginated[0]
+        : data?.restaurantsPaginated
+      : (data as any)?.getClonedRestaurantsPaginated;
 
   const restaurants = restaurantData?.data || [];
   const totalRecords = restaurantData?.totalCount || 0;

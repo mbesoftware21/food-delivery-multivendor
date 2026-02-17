@@ -107,9 +107,10 @@ export default function RestaurantDetailsForm({
       _id: '',
       description: '',
       image: '',
-      name: '',
-      shopType: '',
+      title: '',
+      shop_type_id: '',
       __typename: '',
+      id: '',
     },
   });
 
@@ -168,13 +169,21 @@ export default function RestaurantDetailsForm({
   });
 
   // Memoized Constants
-  const cuisinesDropdown = useMemo(
-    () =>
-      cuisineResponse.data?.cuisines?.map((cuisin: ICuisine) => {
-        return { label: toTextCase(cuisin.name, 'title'), code: cuisin.name };
-      }),
-    [cuisineResponse.data?.cuisines]
-  );
+  const cuisinesDropdown = useMemo(() => {
+    if (!cuisineResponse.data?.cuisines) return [];
+
+    const uniqueCuisines = new Map();
+    cuisineResponse.data.cuisines.forEach((cuisin: ICuisine) => {
+      if (!uniqueCuisines.has(cuisin.title)) {
+        uniqueCuisines.set(cuisin.title, {
+          label: toTextCase(cuisin.title, 'title'),
+          code: cuisin.title,
+        });
+      }
+    });
+
+    return Array.from(uniqueCuisines.values());
+  }, [cuisineResponse.data?.cuisines]);
 
   // Handlers
   const onCreateRestaurant = async (data: IRestaurantForm) => {
@@ -195,7 +204,6 @@ export default function RestaurantDetailsForm({
         (restaurant: IRestaurantForm) =>
           restaurant.name.toLowerCase() === data.name.toLowerCase()
       );
-      console.log('existingRestaurant ==> ', existingRestaurant);
       if (existingRestaurant) {
         showToast({
           type: 'error',

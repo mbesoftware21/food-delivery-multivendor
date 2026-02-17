@@ -183,12 +183,13 @@ def create_store(req: dict):
     try:
         with conn.cursor() as cur:
             cur.execute("""
-                INSERT INTO restaurants (name, address, image, logo, phone, delivery_time, owner_id, slug)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                INSERT INTO restaurants (name, address, image, logo, phone, delivery_time, owner_id, slug, shop_type, cuisines)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
             """, (
                 ri.get("name"), ri.get("address"), ri.get("image"), ri.get("logo"),
-                ri.get("phone"), ri.get("deliveryTime", 30), owner_id, ri.get("slug")
+                ri.get("phone"), ri.get("deliveryTime", 30), owner_id, ri.get("slug"),
+                ri.get("shopType"), ri.get("cuisines", [])
             ))
             res_id = cur.fetchone()[0]
             
@@ -234,11 +235,14 @@ def edit_store(req: dict):
                     phone = COALESCE(%s, phone),
                     delivery_time = COALESCE(%s, delivery_time),
                     slug = COALESCE(%s, slug),
+                    shop_type = COALESCE(%s, shop_type),
+                    cuisines = COALESCE(%s, cuisines),
                     updated_at = NOW()
                 WHERE id = %s
             """, (
                 ri.get("name"), ri.get("address"), ri.get("image"), ri.get("logo"),
-                ri.get("phone"), ri.get("deliveryTime"), ri.get("slug"), res_id
+                ri.get("phone"), ri.get("deliveryTime"), ri.get("slug"),
+                ri.get("shopType"), ri.get("cuisines"), res_id
             ))
             
             cur.execute("""
@@ -806,3 +810,365 @@ def restaurants_paginated(req: dict):
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+# ============================================
+# SHOP TYPES ENDPOINTS
+# ============================================
+
+@app.post("/fetchShopTypes")
+def fetch_shop_types(req: dict):
+    params = req.get("input", {})
+    pagination = params.get("pagination") or {}
+    page = pagination.get("page") or 1
+    limit = pagination.get("size") or pagination.get("limit") or pagination.get("rows") or 10
+
+    offset = (page - 1) * limit
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            count_query = "SELECT COUNT(*) FROM shop_types WHERE is_active = true"
+            cur.execute(count_query)
+            total_count = cur.fetchone()[0]
+            
+            total_pages = (total_count + limit - 1) // limit if limit > 0 else 1
+            
+            fetch_query = """
+                SELECT id, title, description, image, is_active
+                FROM shop_types
+                WHERE is_active = true
+                ORDER BY created_at DESC
+                LIMIT %s OFFSET %s
+            """
+            cur.execute(fetch_query, (limit, offset))
+            rows = cur.fetchall()
+            
+            shop_types = []
+            for row in rows:
+                shop_types.append({
+                    "_id": str(row[0]),
+                    "name": row[1],
+                    "image": row[3],
+                    "isActive": row[4]
+                })
+            
+            return {
+                "data": shop_types,
+                "total": total_count,
+                "page": page,
+                "pageSize": limit,
+                "totalPages": total_pages,
+                "hasNextPage": page < total_pages,
+                "hasPrevPage": page > 1
+            }
+            
+    except Exception as e:
+        print(f"Error fetching shop types: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/createShopType")
+def create_shop_type(req: dict):
+    params = req.get("input", {})
+    dto = params.get("dto") or {}
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO shop_types (title, description, image, is_active)
+                VALUES (%s, %s, %s, %s)
+                RETURNING id, title, image, is_active
+            """, (dto.get("name"), dto.get("description", ""), dto.get("image"), True))
+            row = cur.fetchone()
+            conn.commit()
+            
+            return {
+                "_id": str(row[0]),
+                "name": row[1],
+                "image": row[2],
+                "isActive": row[3]
+            }
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/updateShopType")
+def update_shop_type(req: dict):
+    params = req.get("input", {})
+    dto = params.get("dto") or {}
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                UPDATE shop_types 
+                SET title = %s, description = %s, image = %s
+                WHERE id = %s
+                RETURNING id, title, image, is_active
+            """, (dto.get("name"), dto.get("description"), dto.get("image"), dto.get("_id")))
+            row = cur.fetchone()
+            conn.commit()
+            
+            if row:
+                return {
+                    "_id": str(row[0]),
+                    "name": row[1],
+                    "image": row[2],
+                    "isActive": row[3]
+                }
+            return None
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/deleteShopType")
+def delete_shop_type(req: dict):
+    params = req.get("input", {})
+    st_id = params.get("id")
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                UPDATE shop_types SET is_active = false WHERE id = %s
+                RETURNING id, title, image, is_active
+            """, (st_id,))
+            row = cur.fetchone()
+            conn.commit()
+            
+            if row:
+                 return {
+                    "_id": str(row[0]),
+                    "name": row[1],
+                    "image": row[2],
+                    "isActive": row[3]
+                }
+            return None
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+# ============================================
+# CUISINES ENDPOINTS
+# ============================================
+
+@app.post("/fetchCuisines")
+def fetch_cuisines(req: dict):
+    # Expects { "input": { "shopType": "uuid", "isActive": true } }
+    params = req.get("input", {}) or {}
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            fetch_query = """
+                SELECT id, title, description, image, is_active, shop_type_id
+                FROM cuisines
+                WHERE is_active = true
+                ORDER BY created_at DESC
+            """
+            cur.execute(fetch_query)
+            rows = cur.fetchall()
+            
+            cuisines = []
+            for row in rows:
+                cuisines.append({
+                    "_id": str(row[0]),
+                    "name": row[1],
+                    "image": row[3],
+                    "isActive": row[4],
+                    "shopTypeId": str(row[5]) if row[5] else None
+                })
+            
+            return cuisines
+            
+    except Exception as e:
+        print(f"Error fetching cuisines: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/createCuisine")
+def create_cuisine(req: dict):
+    params = req.get("input", {})
+    dto = params.get("cuisineInput") or {}
+    shop_type_id = dto.get("shopTypeId") or dto.get("shopType")
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            # If shop_type_id is not a UUID, try to find it by name
+            actual_shop_type_id = None
+            if shop_type_id:
+                # Check if it's already a UUID (contains hyphens)
+                if '-' in str(shop_type_id):
+                    actual_shop_type_id = shop_type_id
+                else:
+                    # Look up by title
+                    cur.execute("SELECT id FROM shop_types WHERE title = %s", (shop_type_id,))
+                    result = cur.fetchone()
+                    if result:
+                        actual_shop_type_id = result[0]
+            
+            cur.execute("""
+                INSERT INTO cuisines (title, description, image, is_active, shop_type_id)
+                VALUES (%s, %s, %s, %s, %s)
+                RETURNING id, title, description, image, is_active, shop_type_id
+            """, (dto.get("name"), dto.get("description", ""), dto.get("image"), True, actual_shop_type_id))
+            row = cur.fetchone()
+            conn.commit()
+            
+            return {
+                "_id": str(row[0]),
+                "name": row[1],
+                "description": row[2],
+                "image": row[3],
+                "isActive": row[4],
+                "shopTypeId": str(row[5]) if row[5] else None,
+                "shopType": str(row[5]) if row[5] else None
+            }
+    except Exception as e:
+        print(f"ERROR in createCuisine: {str(e)}")
+        print(f"DTO received: {dto}")
+        print(f"shop_type_id: {shop_type_id}")
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/editCuisine")
+def edit_cuisine(req: dict):
+    params = req.get("input", {})
+    dto = params.get("cuisineInput") or {}
+    shop_type_id = dto.get("shopTypeId") or dto.get("shopType")
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+            # If shop_type_id is not a UUID, try to find it by name
+            actual_shop_type_id = None
+            if shop_type_id:
+                # Check if it's already a UUID (contains hyphens)
+                if '-' in str(shop_type_id):
+                    actual_shop_type_id = shop_type_id
+                else:
+                    # Look up by title
+                    cur.execute("SELECT id FROM shop_types WHERE title = %s", (shop_type_id,))
+                    result = cur.fetchone()
+                    if result:
+                        actual_shop_type_id = result[0]
+            
+            cur.execute("""
+                UPDATE cuisines 
+                SET title = COALESCE(%s, title), description = COALESCE(%s, description), 
+                    image = COALESCE(%s, image), shop_type_id = COALESCE(%s, shop_type_id)
+                WHERE id = %s
+                RETURNING id, title, description, image, is_active
+            """, (dto.get("name"), dto.get("description"), dto.get("image"), actual_shop_type_id, dto.get("_id")))
+            row = cur.fetchone()
+            conn.commit()
+            
+            if row:
+                return {
+                    "_id": str(row[0]),
+                    "name": row[1],
+                    "description": row[2],
+                    "image": row[3],
+                    "isActive": row[4]
+                }
+            return None
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/deleteCuisine")
+def delete_cuisine(req: dict):
+    params = req.get("input", {})
+    items_ids = params.get("id") # Assuming it passes "id" based on pattern, or "ids" array? Frontend typicaly sends ID string.
+    
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+             # Just disable it
+            cur.execute("""
+                UPDATE cuisines SET is_active = false WHERE id = %s
+                RETURNING id, title, image, is_active
+            """, (items_ids,))
+            row = cur.fetchone()
+            conn.commit()
+            
+            if row:
+                return {
+                    "_id": str(row[0]),
+                    "name": row[1],
+                    "image": row[2],
+                    "isActive": row[3]
+                }
+            return None
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)
+
+@app.post("/updateDeliveryBoundsAndLocation")
+def update_delivery_bounds_and_location(req: dict):
+    params = req.get("input", {})
+    res_id = params.get("id")
+    location = params.get("location", {})
+    lat = location.get("latitude")
+    lng = location.get("longitude")
+    address = params.get("address")
+    
+    # Update restaurants table
+    conn = db_pool.getconn()
+    try:
+        with conn.cursor() as cur:
+             # Update location using PostGIS
+             # ST_SetSRID(ST_MakePoint(lng, lat), 4326)
+             cur.execute("""
+                UPDATE restaurants
+                SET 
+                    location = ST_SetSRID(ST_MakePoint(%s, %s), 4326),
+                    address = COALESCE(%s, address),
+                    updated_at = NOW()
+                WHERE id = %s
+                RETURNING id
+             """, (lng, lat, address, res_id))
+             
+             row = cur.fetchone()
+             conn.commit()
+             
+             if row:
+                 # Fetch full data to return in expected format
+                 # Expected: { success, message, data: { _id, location: { coordinates }, deliveryBounds: ... } }
+                 
+                 return {
+                     "success": True,
+                     "message": "Location updated successfully",
+                     "data": {
+                         "_id": str(row[0]),
+                         "location": {
+                             "coordinates": [lng, lat] 
+                         },
+                         "deliveryBounds": {
+                             "coordinates": [[[0,0], [0,1], [1,1], [1,0], [0,0]]] 
+                         }
+                     }
+                 }
+             return { "success": False, "message": "Restaurant not found" }
+             
+    except Exception as e:
+        conn.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db_pool.putconn(conn)

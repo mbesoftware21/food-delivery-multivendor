@@ -9,6 +9,7 @@ const toTitleCase = (str: string) => {
 };
 
 export const toTextCase = (text: string, type: TTextCase): string => {
+  if (!text) return '';
   let result: string = '';
   switch (type) {
     case 'lower':

@@ -52,11 +52,11 @@ export default function CuisineForm({
   // Initial values
   const initialValues = {
     _id: isEditing.bool ? isEditing?.data?._id : '',
-    name: isEditing.bool ? isEditing?.data?.name : '',
+    title: isEditing.bool ? isEditing?.data?.title : '',
     description: isEditing.bool ? isEditing?.data?.description : '',
-    shopType: {
-      label: capitalizeFirstWord(isEditing?.data?.shopType ?? ''),
-      code: isEditing?.data?.shopType.toLocaleLowerCase() ?? '',
+    shop_type_id: {
+      label: capitalizeFirstWord(isEditing?.data?.shop_type_id ?? ''),
+      code: isEditing?.data?.shop_type_id?.toLowerCase() ?? '',
     },
     image: isEditing.bool ? isEditing.data.image : '',
   };
@@ -81,7 +81,6 @@ export default function CuisineForm({
       refetchQueries: [{ query: GET_CUISINES }],
     }
   );
-  console.log(isEditing.data);
 
   const [editCuisine, { loading: editCuisineLoading }] = useMutation(
     EDIT_CUISINE,
@@ -121,9 +120,10 @@ export default function CuisineForm({
           data: {
             __typename: '',
             _id: '',
+            id: '',
             description: '',
-            name: '',
-            shopType: '',
+            title: '',
+            shop_type_id: '',
             image: '',
           },
         });
@@ -145,17 +145,17 @@ export default function CuisineForm({
             let formData;
             if (!isEditing.bool) {
               formData = {
-                name: values.name,
+                title: values.title,
                 description: values.description,
-                shopType: values.shopType.label,
+                shop_type_id: values.shop_type_id.label, // Sending label (name) for now as backend handles lookup
                 image: values.image,
               };
             } else {
               formData = {
                 _id: values._id,
-                name: values.name,
+                title: values.title,
                 description: values.description,
-                shopType: values.shopType.label,
+                shop_type_id: values.shop_type_id.label, // Sending label (name) for now as backend handles lookup
                 image: values.image,
               };
             }
@@ -180,9 +180,10 @@ export default function CuisineForm({
               data: {
                 __typename: '',
                 _id: '',
+                id: '',
                 description: '',
-                name: '',
-                shopType: '',
+                title: '',
+                shop_type_id: '',
                 image: '',
               },
             });
